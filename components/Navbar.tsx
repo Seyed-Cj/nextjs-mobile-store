@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -38,6 +38,8 @@ export default function Navbar({
   const [mounted, setMounted] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const hamburgerBtnRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -55,6 +57,59 @@ export default function Navbar({
     return () => {
       document.body.style.overflow = "";
     };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) {
+      if (
+        drawerRef.current &&
+        drawerRef.current.contains(document.activeElement)
+      ) {
+        hamburgerBtnRef.current?.focus();
+      }
+      return;
+    }
+
+    const drawerElement = drawerRef.current;
+    if (!drawerElement) return;
+
+    const focusableElements = drawerElement.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+
+    if (focusableElements.length > 0) {
+      focusableElements[0].focus();
+    }
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== "Tab") return;
+
+      const currentFocusables = drawerElement
+        ? drawerElement.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          )
+        : [];
+
+      if (currentFocusables.length === 0) return;
+
+      const firstElement = currentFocusables[0];
+      const lastElement = currentFocusables[currentFocusables.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [mobileOpen]);
 
   // Focus the search field as soon as the search bar opens.
@@ -146,6 +201,7 @@ export default function Navbar({
             </Link>
 
             <button
+              ref={hamburgerBtnRef}
               type="button"
               onClick={toggleMobile}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -153,11 +209,23 @@ export default function Navbar({
               aria-controls="mobile-nav"
               className="rounded p-1 text-white/80 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60 md:hidden"
             >
-              {mobileOpen ? (
-                <X className="h-5 w-5" strokeWidth={1.75} />
-              ) : (
-                <Menu className="h-5 w-5" strokeWidth={1.75} />
-              )}
+              <span className="relative block h-4 w-5">
+                <span
+                  className={`absolute left-0 h-0.5 w-5 bg-current transition-all duration-300 ${
+                    mobileOpen ? "top-1.5 rotate-45" : "top-0 rotate-0"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 top-1.5 h-0.5 w-5 bg-current transition-opacity duration-200 ${
+                    mobileOpen ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+                <span
+                  className={`absolute left-0 h-0.5 w-5 bg-current transition-all duration-300 ${
+                    mobileOpen ? "top-1.5 -rotate-45" : "top-3 rotate-0"
+                  }`}
+                />
+              </span>
             </button>
           </div>
         </div>
@@ -192,15 +260,18 @@ export default function Navbar({
           </div>
         )}
       </header>
-
-      {/* mobile nav */}
       {mounted &&
         createPortal(
           <nav
+            ref={drawerRef}
             id="mobile-nav"
             aria-label="Mobile"
-            hidden={!mobileOpen}
-            className="fixed inset-x-0 top-11 bottom-0 z-[60] overflow-y-auto bg-[#1d1d1f] px-6 pb-10 pt-4 md:hidden"
+            aria-hidden={!mobileOpen}
+            className={`fixed inset-x-0 top-11 bottom-0 z-[60] overflow-y-auto overscroll-contain bg-[#1d1d1f] px-6 pb-10 pt-4 md:hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
+              mobileOpen
+                ? "opacity-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 -translate-y-4 pointer-events-none"
+            }`}
           >
             <ul className="divide-y divide-white/10">
               {items.map((item) => (
