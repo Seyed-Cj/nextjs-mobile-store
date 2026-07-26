@@ -141,14 +141,14 @@ export default function Navbar({
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 h-11 border-b border-white/10 bg-[#1d1d1f]/90 backdrop-blur-md ${className}`}
+        className={`fixed inset-x-0 top-0 z-50 h-11 bg-white/90 backdrop-blur-md ${className}`}
       >
         <div className="mx-auto flex h-full max-w-[1024px] items-center justify-between px-4 sm:px-6">
           {/* Logo */}
           <Link
             href="/"
             aria-label="Apple"
-            className="rounded-sm p-1 text-white/80 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
+            className="rounded-sm p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
           >
             <AppleLogo />
           </Link>
@@ -164,7 +164,7 @@ export default function Navbar({
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={`rounded px-0.5 py-0.5 text-xs font-normal tracking-tight transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60 ${
-                        active ? "text-white" : "text-white/80 hover:text-white"
+                        active ? "text-black" : "text-black/80 hover:text-black"
                       }`}
                     >
                       {item.label}
@@ -182,7 +182,7 @@ export default function Navbar({
               onClick={openSearch}
               aria-label="Search apple.com"
               aria-expanded={searchOpen}
-              className="rounded p-1 text-white/80 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
+              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
             >
               <Search className="h-4 w-4" strokeWidth={1.75} />
             </button>
@@ -190,11 +190,11 @@ export default function Navbar({
             <Link
               href="/bag"
               aria-label={bagCount > 0 ? `Bag, ${bagCount} items` : "Bag"}
-              className="relative rounded p-1 text-white/80 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
+              className="relative rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
             >
               <ShoppingBag className="h-4 w-4" strokeWidth={1.75} />
               {bagCount > 0 && (
-                <span className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-blue-500 px-1 text-[9px] font-semibold text-white">
+                <span className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-blue-500 px-1 text-[9px] font-semibold text-black">
                   {bagCount}
                 </span>
               )}
@@ -207,7 +207,7 @@ export default function Navbar({
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
-              className="rounded p-1 text-white/80 transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60 md:hidden"
+              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60 md:hidden"
             >
               <span className="relative block h-4 w-5">
                 <span
@@ -232,7 +232,7 @@ export default function Navbar({
 
         {/* Desktop search bar */}
         {searchOpen && (
-          <div className="absolute inset-x-0 top-11 hidden border-b border-white/10 bg-[#1d1d1f] md:block">
+          <div className="absolute inset-x-0 top-11 hidden border-b border-black/10 bg-white md:block">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -240,19 +240,19 @@ export default function Navbar({
               }}
               className="mx-auto flex max-w-[800px] items-center gap-3 px-6 py-3"
             >
-              <Search className="h-4 w-4 shrink-0 text-white/40" />
+              <Search className="h-4 w-4 shrink-0 text-black/40" />
               <input
                 ref={searchInputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search apple.com"
-                className="w-full bg-transparent text-sm text-white placeholder-white/40 focus:outline-none"
+                className="w-full bg-transparent text-sm text-black placeholder-white/40 focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => setSearchOpen(false)}
-                className="shrink-0 text-xs text-white/50 transition-colors hover:text-white"
+                className="shrink-0 text-xs text-black/50 transition-colors hover:text-black"
               >
                 Cancel
               </button>
@@ -267,19 +267,19 @@ export default function Navbar({
             id="mobile-nav"
             aria-label="Mobile"
             aria-hidden={!mobileOpen}
-            className={`fixed inset-x-0 top-11 bottom-0 z-[60] overflow-y-auto overscroll-contain bg-[#1d1d1f] px-6 pb-10 pt-4 md:hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
+            className={`fixed inset-x-0 top-11 bottom-0 z-[60] overflow-y-auto overscroll-contain bg-white px-6 pb-10 pt-4 md:hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
               mobileOpen
                 ? "opacity-100 translate-y-0 pointer-events-auto"
                 : "opacity-0 -translate-y-4 pointer-events-none"
             }`}
           >
-            <ul className="divide-y divide-white/10">
+            <ul className="divide-y divide-black/10">
               {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-3 text-xl font-medium text-white/90 transition-colors hover:text-white"
+                    className="block py-3 text-xl font-medium text-black/90 transition-colors hover:text-black"
                   >
                     {item.label}
                   </Link>

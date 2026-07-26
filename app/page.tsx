@@ -1,5 +1,9 @@
-import Image from "next/image";
+import CategoryShowcase from "@/components/CategoryShowcase";
 
 export default function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <CategoryShowcase />
+    </div>
+  );
 }
