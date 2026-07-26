@@ -14,7 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" className={`${iranYekan.variable} h-full antialiased`} dir="rtl">
+    <html
+      lang="fa"
+      className={`${iranYekan.variable} h-full antialiased`}
+      dir="rtl"
+    >
       <body className="font-sans">
         <Navbar />
         <main className="pt-11">{children}</main>
@@ -22,4 +26,3 @@ export default function RootLayout({
     </html>
   );
 }
-

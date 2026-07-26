@@ -67,8 +67,8 @@ export default function HeroSlider({
       </Swiper>
 
       {/* Pagination Container with subtle backdrop pill for contrast */}
-      <div className="absolute bottom-3 left-0 right-0 z-20 flex justify-center pointer-events-none sm:bottom-4">
-        <div className="hero-swiper-pagination pointer-events-auto flex items-center justify-center rounded-full px-3 py-1.5 " />
+      <div className="pointer-events-none absolute right-0 bottom-3 left-0 z-20 flex justify-center sm:bottom-4">
+        <div className="hero-swiper-pagination pointer-events-auto flex items-center justify-center rounded-full px-3 py-1.5" />
       </div>
     </div>
   );

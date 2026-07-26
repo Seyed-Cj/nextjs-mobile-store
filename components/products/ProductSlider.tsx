@@ -40,7 +40,7 @@ export default function ProductSlider({
         type="button"
         disabled={edge.isBeginning}
         aria-label="اسلاید قبلی"
-        className="absolute -right-2 sm:-right-4 lg:-right-5 top-1/2 z-10 flex h-10 w-10 sm:h-11 sm:w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-neutral-800 shadow-md backdrop-blur-xs transition-all duration-200 hover:bg-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-30"
+        className="absolute top-1/2 -right-2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-neutral-800 shadow-md backdrop-blur-xs transition-all duration-200 hover:bg-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-30 sm:-right-4 sm:h-11 sm:w-11 lg:-right-5"
       >
         <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.2} />
       </button>
@@ -51,7 +51,7 @@ export default function ProductSlider({
         type="button"
         disabled={edge.isEnd}
         aria-label="اسلاید بعدی"
-        className="absolute -left-2 sm:-left-4 lg:-left-5 top-1/2 z-10 flex h-10 w-10 sm:h-11 sm:w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-neutral-800 shadow-md backdrop-blur-xs transition-all duration-200 hover:bg-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-30"
+        className="absolute top-1/2 -left-2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white/95 text-neutral-800 shadow-md backdrop-blur-xs transition-all duration-200 hover:bg-white hover:shadow-lg active:scale-95 disabled:pointer-events-none disabled:opacity-30 sm:-left-4 sm:h-11 sm:w-11 lg:-left-5"
       >
         <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.2} />
       </button>

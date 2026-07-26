@@ -36,15 +36,21 @@ export default function ProductCard({ product }: ProductCardProps) {
       )}
 
       <div className="absolute inset-x-0 top-0 z-10 p-6 text-right">
-        <span className={`text-[13px] font-bold tracking-wide ${textColorClass}`}>
+        <span
+          className={`text-[13px] font-bold tracking-wide ${textColorClass}`}
+        >
           {product.tag}
         </span>
 
-        <h3 className={`mt-1.5 text-[22px] font-bold leading-tight tracking-tight ${textColorClass}`}>
+        <h3
+          className={`mt-1.5 text-[22px] leading-tight font-bold tracking-tight ${textColorClass}`}
+        >
           {product.title}
         </h3>
 
-        <p className={`mt-2 max-w-[90%] text-[13px] leading-relaxed ${descColorClass}`}>
+        <p
+          className={`mt-2 max-w-[90%] text-[13px] leading-relaxed ${descColorClass}`}
+        >
           {product.description}
         </p>
       </div>

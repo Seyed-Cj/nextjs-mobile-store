@@ -19,4 +19,3 @@ export interface Product {
 }
 
 export * from "./product";
-

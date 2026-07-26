@@ -28,7 +28,7 @@ function CategoryItem({ label, href, image }: Category) {
             />
           )}
         </span>
-        <span className="whitespace-nowrap text-s font-bold text-neutral-700 transition-colors group-hover:text-black">
+        <span className="text-s font-bold whitespace-nowrap text-neutral-700 transition-colors group-hover:text-black">
           {label}
         </span>
       </Link>

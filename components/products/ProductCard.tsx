@@ -18,7 +18,7 @@ export default function ProductCard({
   const formattedPrice = formatPersianPrice(
     product.priceFrom,
     product.currency ?? "تومان",
-    "از"
+    "از",
   );
 
   const handleBuyClick = (e: React.MouseEvent) => {
@@ -57,7 +57,7 @@ export default function ProductCard({
       <div className="flex flex-1 flex-col justify-between">
         <div>
           {/* Title */}
-          <h3 className="text-base font-bold tracking-tight text-neutral-900 line-clamp-1">
+          <h3 className="line-clamp-1 text-base font-bold tracking-tight text-neutral-900">
             <Link href={product.href} className="hover:text-black">
               {product.name}
             </Link>
