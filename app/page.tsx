@@ -1,14 +1,16 @@
 import CategoryShowcase from "@/components/CategoryShowcase";
 import LatestProducts from "@/components/LatestProducts";
 import FeaturedProducts from "@/components/products/FeaturedProducts";
+import HeroBanner from "@/components/hero/HeroBanner";
 
 export default function Home() {
   return (
     <div>
-      <div className="mt-5">
+      <HeroBanner />
+      <CategoryShowcase />
+      <div>
         <LatestProducts />
       </div>
-      <CategoryShowcase />
       <FeaturedProducts />
     </div>
   );

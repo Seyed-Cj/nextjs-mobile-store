@@ -42,7 +42,7 @@ export default function CategoryShowcase() {
       aria-label="دسته‌بندی محصولات"
       dir="rtl"
       lang="fa"
-      className="bg-[#f6f5f8] py-6"
+      className="bg-[#f6f5f8]"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ul className="grid grid-cols-4 justify-items-center gap-y-6 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-8">
