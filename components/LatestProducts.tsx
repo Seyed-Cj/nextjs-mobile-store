@@ -84,7 +84,7 @@ export default function LatestProducts() {
             {products.map((product) => (
               <SwiperSlide
                 key={product.href}
-                className="!w-75 sm:!w-85 lg:!w-90"
+                className="w-75! sm:w-85! lg:w-90!"
               >
                 <ProductCard product={product} />
               </SwiperSlide>

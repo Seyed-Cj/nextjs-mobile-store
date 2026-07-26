@@ -1,5 +1,6 @@
 import CategoryShowcase from "@/components/CategoryShowcase";
 import LatestProducts from "@/components/LatestProducts";
+import FeaturedProducts from "@/components/products/FeaturedProducts";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
         <LatestProducts />
       </div>
       <CategoryShowcase />
+      <FeaturedProducts />
     </div>
   );
 }

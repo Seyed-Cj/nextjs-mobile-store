@@ -17,3 +17,6 @@ export interface Product {
   image?: string;
   theme: "light" | "dark";
 }
+
+export * from "./product";
+
