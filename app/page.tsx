@@ -8,7 +8,6 @@ export default function Home() {
         <LatestProducts />
       </div>
       <CategoryShowcase />
-      <LatestProducts />
     </div>
   );
 }

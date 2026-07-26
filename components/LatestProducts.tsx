@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -11,109 +9,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 
-interface Product {
-  tag: string;
-  title: string;
-  description: string;
-  href: string;
-  image?: string;
-  theme: "light" | "dark";
-}
-
-const products: Product[] = [
-  {
-    tag: "New Mac Pro",
-    title: "مک بوک پرو",
-    description: "مشاهده قیمت و خرید جدیدترین مک بوک های اپل",
-    href: "/macbook-pro1",
-    image: "/images/macbook-pro-2025.jpg",
-    theme: "light",
-  },
-  {
-    tag: "New Macbook",
-    title: "مک بوک نئو",
-    description: "مشاهده قیمت و خرید جدیدترین سری مک بوک",
-    href: "/macbook-neo",
-    image: "/images/neo2026.jpg",
-    theme: "dark",
-  },
-  {
-    tag: "iPhone",
-    title: "گوشی های اپل",
-    description: "مشاهده و خرید جدیدترین گوشی های اپل",
-    href: "/iphone-15-pro",
-    image: "/images/iphone-17-pro.jpg",
-    theme: "light",
-  },
-  {
-    tag: "New iPad Air",
-    title: "آیپد ایر اپل",
-    description: "مشاهده قیمت و خرید جدیدترین آیپد ایر اپل",
-    href: "/ipad-air1",
-    image: "/images/ipad-air-2026.jpg",
-    theme: "dark",
-  },
-];
-
-function ProductCard({ product }: { product: Product }) {
-  const [imageError, setImageError] = useState(false);
-  const showImage = Boolean(product.image) && !imageError;
-  const isLight = product.theme === "light";
-
-  return (
-    <Link
-      href={product.href}
-      className="group relative block h-115 w-full overflow-hidden rounded-2xl bg-neutral-200 shadow-sm transition-all duration-300 hover:shadow-xl"
-    >
-      {showImage ? (
-        <Image
-          src={product.image!}
-          alt={product.title}
-          fill
-          sizes="(max-width: 640px) 85vw, 380px"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          onError={() => setImageError(true)}
-        />
-      ) : (
-        <div className="absolute inset-0 bg-neutral-300" />
-      )}
-
-      <div className="absolute inset-x-0 top-0 z-10 p-6 text-right">
-        {isLight ? (
-          <>
-            <span className="text-[13px] font-bold tracking-wide text-white">
-              {product.tag}
-            </span>
-
-            <h3 className="mt-1.5 text-[22px] font-bold leading-tight tracking-tight text-white">
-              {product.title}
-            </h3>
-
-            <p className="mt-2 max-w-[90%] text-[13px] leading-relaxed text-white/85">
-              {product.description}
-            </p>
-          </>
-        ) : (
-          <>
-            <>
-              <span className="text-[13px] font-bold tracking-wide text-black">
-                {product.tag}
-              </span>
-
-              <h3 className="mt-1.5 text-[22px] font-bold leading-tight tracking-tight text-black">
-                {product.title}
-              </h3>
-
-              <p className="mt-2 max-w-[90%] text-[13px] leading-relaxed text-black/85">
-                {product.description}
-              </p>
-            </>
-          </>
-        )}
-      </div>
-    </Link>
-  );
-}
+import { products } from "@/constants/products";
+import ProductCard from "@/components/ProductCard";
 
 export default function LatestProducts() {
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -167,11 +64,16 @@ export default function LatestProducts() {
             dir="rtl"
             slidesPerView="auto"
             spaceBetween={20}
+            onBeforeInit={(swiper) => {
+              if (
+                swiper.params.navigation &&
+                typeof swiper.params.navigation !== "boolean"
+              ) {
+                swiper.params.navigation.prevEl = prevRef.current;
+                swiper.params.navigation.nextEl = nextRef.current;
+              }
+            }}
             onSwiper={(swiper) => {
-              // @ts-expect-error
-              swiper.params.navigation.prevEl = prevRef.current;
-              // @ts-expect-error
-              swiper.params.navigation.nextEl = nextRef.current;
               swiper.navigation.init();
               swiper.navigation.update();
               syncEdge(swiper);
@@ -182,7 +84,7 @@ export default function LatestProducts() {
             {products.map((product) => (
               <SwiperSlide
                 key={product.href}
-                className="w-75! sm:w-85! lg:w-90!"
+                className="!w-75 sm:!w-85 lg:!w-90"
               >
                 <ProductCard product={product} />
               </SwiperSlide>

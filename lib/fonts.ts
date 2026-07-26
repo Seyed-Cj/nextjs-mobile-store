@@ -3,17 +3,17 @@ import localFont from "next/font/local";
 export const iranYekan = localFont({
   src: [
     {
-      path: "../fonts/iranyekanwebmedium.woff",
+      path: "../app/fonts/iranyekanwebmedium.woff",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../fonts/iranyekanwebmedium.woff",
+      path: "../app/fonts/iranyekanwebmedium.woff",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../fonts/iranyekanwebbold.woff",
+      path: "../app/fonts/iranyekanwebbold.woff",
       weight: "700",
       style: "normal",
     },
@@ -27,4 +27,3 @@ export const fonts = {
 } as const;
 
 export type FontName = keyof typeof fonts;
-

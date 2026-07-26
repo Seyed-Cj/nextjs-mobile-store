@@ -1,16 +1,27 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, ShoppingBag, Menu, X, ChevronDown, User } from "lucide-react";
-import { navItems, type NavItem } from "@/config/navItems";
+import { Search, ShoppingBag, ChevronDown, User } from "lucide-react";
+import { NavItem } from "@/types";
+import { navItems } from "@/constants/navItems";
 
 export interface NavbarProps {
   items?: NavItem[];
   bagCount?: number;
   className?: string;
+}
+
+const emptySubscribe = () => () => {};
+
+function useIsMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 }
 
 function AppleLogo({ className = "h-6 w-6" }: { className?: string }) {
@@ -32,24 +43,23 @@ export default function Navbar({
   className = "",
 }: NavbarProps) {
   const pathname = usePathname();
+  const mounted = useIsMounted();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [mounted, setMounted] = useState(false);
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const hamburgerBtnRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Close any open overlay whenever the route changes.
-  useEffect(() => {
+  // Close overlays when pathname changes (render-phase state sync)
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMobileOpen(false);
     setSearchOpen(false);
-  }, [pathname]);
+  }
 
   // Lock page scroll while the mobile drawer is open.
   useEffect(() => {
@@ -141,7 +151,7 @@ export default function Navbar({
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 ${mobileOpen ? "bg-white" : "bg-[#fdfdfd]/90"} h-18 ${className}`}
+        className={`fixed inset-x-0 top-0 z-50 md:bg-[#fbfafd]/90 ${mobileOpen ? "bg-white" : "bg-[#f6f5f8]/90"} h-18 ${className}`}
       >
         <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6">
           {/* Logo */}

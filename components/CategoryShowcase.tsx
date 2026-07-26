@@ -3,26 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-interface Category {
-  label: string;
-  href: string;
-  image?: string;
-}
-
-const categories: Category[] = [
-  { label: "مک", href: "/mac", image: "/categories/mac-nav.png" },
-  { label: "آیفون", href: "/iphone", image: "/categories/iphone-nav.png" },
-  { label: "آیپد", href: "/ipad", image: "/categories/ipad-nav.png" },
-  { label: "اپل واچ", href: "/watch", image: "/categories/watch-nav.png" },
-  { label: "ایرپاد", href: "/airpods", image: "/categories/airpods-nav.png" },
-  {
-    label: "لوازم جانبی",
-    href: "/accessories",
-    image: "/categories/accessories-nav.png",
-  },
-  { label: "اپل تیوی", href: "/appletv", image: "/categories/appletv-nav.png" },
-];
+import { Category } from "@/types";
+import { categories } from "@/constants/categories";
 
 function CategoryItem({ label, href, image }: Category) {
   const [imageError, setImageError] = useState(false);
@@ -39,9 +21,8 @@ function CategoryItem({ label, href, image }: Category) {
             <Image
               src={image as string}
               alt={label}
-              width={256}
-              height={256}
-              loading="eager"
+              width={104}
+              height={104}
               className="h-full w-full object-contain transition-transform duration-200 ease-out group-hover:scale-105"
               onError={() => setImageError(true)}
             />
