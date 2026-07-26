@@ -32,7 +32,7 @@ function CategoryItem({ label, href, image }: Category) {
     <li className="flex flex-col items-center">
       <Link
         href={href}
-        className="group flex flex-col items-center gap-2 rounded-lg p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+        className="group flex flex-col items-center gap-2 rounded-lg p-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
       >
         <span className="flex h-16 w-16 items-center justify-center sm:h-26 sm:w-26">
           {showImage && (
@@ -47,7 +47,7 @@ function CategoryItem({ label, href, image }: Category) {
             />
           )}
         </span>
-        <span className="whitespace-nowrap text-xs font-normal text-neutral-700 transition-colors group-hover:text-black">
+        <span className="whitespace-nowrap text-s font-bold text-neutral-700 transition-colors group-hover:text-black">
           {label}
         </span>
       </Link>
@@ -61,7 +61,7 @@ export default function CategoryShowcase() {
       aria-label="دسته‌بندی محصولات"
       dir="rtl"
       lang="fa"
-      className="py-6"
+      className="bg-[#f6f5f8] py-6"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <ul className="grid grid-cols-4 justify-items-center gap-y-6 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-8">

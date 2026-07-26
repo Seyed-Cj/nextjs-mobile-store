@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, Menu, X, ChevronDown, User } from "lucide-react";
 import { navItems, type NavItem } from "@/config/navItems";
 
 export interface NavbarProps {
@@ -141,33 +141,45 @@ export default function Navbar({
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 h-11 bg-white/90 backdrop-blur-md ${className}`}
+        className={`fixed inset-x-0 top-0 z-50 ${mobileOpen ? "bg-white" : "bg-[#fdfdfd]/90"} h-18 ${className}`}
       >
-        <div className="mx-auto flex h-full max-w-[1024px] items-center justify-between px-4 sm:px-6">
+        <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6">
           {/* Logo */}
           <Link
             href="/"
             aria-label="Apple"
-            className="rounded-sm p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
+            className="rounded-sm p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
           >
             <AppleLogo />
           </Link>
 
           {/* Desktop nav */}
-          <nav aria-label="Global" className="hidden md:block">
+          <nav
+            aria-label="Global"
+            dir="rtl"
+            className="hidden md:block rounded-full border border-black/10 bg-white px-6 py-3"
+          >
             <ul className="flex items-center gap-8">
               {items.map((item) => {
                 const active = pathname === item.href;
+                const hasDropdown = item.href === "/categories";
+
                 return (
-                  <li key={item.href}>
+                  <li key={item.href} className="flex items-center">
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      className={`rounded px-0.5 py-0.5 text-xs font-normal tracking-tight transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60 ${
+                      className={`flex items-center gap-1 rounded px-0.5 py-0.5 text-sm font-normal tracking-tight transition-colors focus-visible:outline-1 focus-visible:outline-white/60 ${
                         active ? "text-black" : "text-black/80 hover:text-black"
                       }`}
                     >
                       {item.label}
+                      {hasDropdown && (
+                        <ChevronDown
+                          className="h-4 w-4 text-black/60"
+                          strokeWidth={1.5}
+                        />
+                      )}
                     </Link>
                   </li>
                 );
@@ -182,22 +194,29 @@ export default function Navbar({
               onClick={openSearch}
               aria-label="Search apple.com"
               aria-expanded={searchOpen}
-              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
+              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
             >
-              <Search className="h-4 w-4" strokeWidth={1.75} />
+              <Search className="h-5 w-5" strokeWidth={1.75} />
             </button>
 
             <Link
               href="/bag"
               aria-label={bagCount > 0 ? `Bag, ${bagCount} items` : "Bag"}
-              className="relative rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60"
+              className="relative rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
             >
-              <ShoppingBag className="h-4 w-4" strokeWidth={1.75} />
+              <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
               {bagCount > 0 && (
-                <span className="absolute -right-1.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-blue-500 px-1 text-[9px] font-semibold text-black">
+                <span className="absolute -right-1.5 -top-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-blue-500 px-1 text-[9px] font-semibold text-black">
                   {bagCount}
                 </span>
               )}
+            </Link>
+
+            <Link
+              href="/login"
+              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
+            >
+              <User className="h-5.5 w-5.5" strokeWidth={1.75} />
             </Link>
 
             <button
@@ -207,7 +226,7 @@ export default function Navbar({
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
-              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/60 md:hidden"
+              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60 md:hidden"
             >
               <span className="relative block h-4 w-5">
                 <span
@@ -232,13 +251,13 @@ export default function Navbar({
 
         {/* Desktop search bar */}
         {searchOpen && (
-          <div className="absolute inset-x-0 top-11 hidden border-b border-black/10 bg-white md:block">
+          <div className="absolute inset-x-0 top-9 hidden border-b border-black/10 bg-white md:block">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 setSearchOpen(false);
               }}
-              className="mx-auto flex max-w-[800px] items-center gap-3 px-6 py-3"
+              className="mx-auto flex max-w-200 items-center gap-3 px-6 py-3"
             >
               <Search className="h-4 w-4 shrink-0 text-black/40" />
               <input
@@ -267,7 +286,7 @@ export default function Navbar({
             id="mobile-nav"
             aria-label="Mobile"
             aria-hidden={!mobileOpen}
-            className={`fixed inset-x-0 top-11 bottom-0 z-[60] overflow-y-auto overscroll-contain bg-white px-6 pb-10 pt-4 md:hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
+            className={`fixed inset-x-0 top-14 bottom-0 z-60 overflow-y-auto overscroll-contain bg-white px-6 pb-10 pt-4 md:hidden transition-all duration-300 ease-out motion-reduce:transition-none ${
               mobileOpen
                 ? "opacity-100 translate-y-0 pointer-events-auto"
                 : "opacity-0 -translate-y-4 pointer-events-none"
