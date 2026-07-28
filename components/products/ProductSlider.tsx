@@ -9,12 +9,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import { FeaturedProduct } from "@/types/product";
+import { ProductCardInterface } from "@/types/product";
 import ProductCard from "./ProductCard";
 
 export interface ProductSliderProps {
-  products: FeaturedProduct[];
-  onBuyNow?: (product: FeaturedProduct) => void;
+  products: ProductCardInterface[];
+  onBuyNow?: (product: ProductCardInterface) => void;
 }
 
 export default function ProductSlider({

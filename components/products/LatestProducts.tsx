@@ -29,7 +29,7 @@ export default function LatestProducts() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-7 flex items-center justify-between">
-          <h2 className="text-[17px] font-normal text-neutral-500 sm:text-xl">
+          <h2 className="text-md font-normal text-neutral-500 sm:text-xl">
             <span className="font-bold text-neutral-900">آخرین‌ها،</span>{" "}
             جدیدترین محصولات اپل
           </h2>
@@ -84,7 +84,7 @@ export default function LatestProducts() {
             {products.map((product) => (
               <SwiperSlide
                 key={product.href}
-                className="w-75! sm:w-85! lg:w-90!"
+                className="w-80! sm:w-85! lg:w-90!"
               >
                 <LatestProductCard product={product} />
               </SwiperSlide>

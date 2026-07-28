@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { FeaturedProduct } from "@/types/product";
+import { ProductCardInterface } from "@/types/product";
 import { featuredProducts as defaultProducts } from "@/lib/data/products";
 import ProductSlider from "./ProductSlider";
 
 export interface FeaturedProductsProps {
   title?: string;
   viewAllHref?: string;
-  products?: FeaturedProduct[];
+  products?: ProductCardInterface[];
 }
 
 export default function FeaturedProducts({

@@ -3,7 +3,7 @@ export interface ColorOption {
   hex: string;
 }
 
-export interface FeaturedProduct {
+export interface ProductCardInterface {
   id: string;
   name: string;
   image: string;

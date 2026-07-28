@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FeaturedProduct } from "@/types/product";
+import { ProductCardInterface } from "@/types/product";
 import { formatPersianPrice } from "@/lib/utils";
 
 export interface ProductCardProps {
-  product: FeaturedProduct;
-  onBuyNow?: (product: FeaturedProduct) => void;
+  product: ProductCardInterface;
+  onBuyNow?: (product: ProductCardInterface) => void;
   className?: string;
 }
 
