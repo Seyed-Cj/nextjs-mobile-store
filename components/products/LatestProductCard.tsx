@@ -5,11 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/types";
 
-export interface ProductCardProps {
+export interface LatestProductCardProps {
   product: Product;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function LatestProductCard({ product }: LatestProductCardProps) {
   const [imageError, setImageError] = useState(false);
   const showImage = Boolean(product.image) && !imageError;
   const isLight = product.theme === "light";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/footer/Footer";
 import { iranYekan } from "@/lib/fonts";
 
@@ -20,9 +20,9 @@ export default function RootLayout({
       className={`${iranYekan.variable} h-full antialiased`}
       dir="rtl"
     >
-      <body className="font-sans flex flex-col min-h-screen">
+      <body className="flex min-h-screen flex-col font-sans">
         <Navbar />
-        <main className="pt-11 flex-grow">{children}</main>
+        <main className="grow pt-11">{children}</main>
         <Footer />
       </body>
     </html>

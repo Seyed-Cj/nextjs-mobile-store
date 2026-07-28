@@ -1,5 +1,5 @@
-import CategoryShowcase from "@/components/CategoryShowcase";
-import LatestProducts from "@/components/LatestProducts";
+import CategoryShowcase from "@/components/categories/CategoryShowcase";
+import LatestProducts from "@/components/products/LatestProducts";
 import FeaturedProducts from "@/components/products/FeaturedProducts";
 import HeroBanner from "@/components/hero/HeroBanner";
 

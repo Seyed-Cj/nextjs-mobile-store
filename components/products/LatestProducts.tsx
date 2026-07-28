@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { products } from "@/constants/products";
-import ProductCard from "@/components/ProductCard";
+import LatestProductCard from "./LatestProductCard";
 
 export default function LatestProducts() {
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -86,7 +86,7 @@ export default function LatestProducts() {
                 key={product.href}
                 className="w-75! sm:w-85! lg:w-90!"
               >
-                <ProductCard product={product} />
+                <LatestProductCard product={product} />
               </SwiperSlide>
             ))}
           </Swiper>
