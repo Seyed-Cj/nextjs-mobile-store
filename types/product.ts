@@ -17,6 +17,12 @@ export interface Product {
   storageOptions?: string[];
   installmentPrice?: number;
   description?: string;
+  category?: string;
+  series?: string;
+  inStock?: boolean;
+  isNew?: boolean;
+  createdAt?: string;
+  popularity?: number;
 }
 
 // Backward-compatible aliases for legacy imports
