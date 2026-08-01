@@ -13,3 +13,12 @@ export interface ProductCardInterface {
   href: string;
   badge?: string;
 }
+
+export interface ProductDetailInterface extends ProductCardInterface {
+  tagline?: string;
+  images?: string[];
+  storageOptions?: string[];
+  installmentPrice?: number;
+  description?: string;
+}
+
