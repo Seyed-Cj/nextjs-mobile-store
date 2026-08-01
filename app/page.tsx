@@ -2,9 +2,12 @@ import CategoryShowcase from "@/components/categories/CategoryShowcase";
 import LatestProducts from "@/components/products/LatestProducts";
 import FeaturedProducts from "@/components/products/FeaturedProducts";
 import HeroBanner from "@/components/hero/HeroBanner";
-import { iPhoneProducts } from "@/lib/data/products";
+import { getFeaturedProducts, getIPhoneProducts } from "@/lib/data/products";
 
-export default function Home() {
+export default async function Home() {
+  const featured = await getFeaturedProducts();
+  const iPhones = await getIPhoneProducts();
+
   return (
     <>
       <section className="hidden sm:block">
@@ -17,11 +20,12 @@ export default function Home() {
         <LatestProducts />
       </section>
       <section className="">
-        <FeaturedProducts />
+        <FeaturedProducts products={featured} />
       </section>
       <section className="">
-        <FeaturedProducts title="آیفون‌ها" products={iPhoneProducts} />
+        <FeaturedProducts title="آیفون‌ها" products={iPhones} />
       </section>
     </>
   );
 }
+

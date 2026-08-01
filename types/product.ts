@@ -1,24 +1,27 @@
-export interface ColorOption {
+export interface ProductColor {
   name: string;
   hex: string;
 }
 
-export interface ProductCardInterface {
+export interface Product {
   id: string;
   name: string;
   image: string;
   priceFrom: number;
   currency?: string;
-  colors: ColorOption[];
+  colors: ProductColor[];
   href: string;
   badge?: string;
-}
-
-export interface ProductDetailInterface extends ProductCardInterface {
   tagline?: string;
   images?: string[];
   storageOptions?: string[];
   installmentPrice?: number;
   description?: string;
 }
+
+// Backward-compatible aliases for legacy imports
+export type ColorOption = ProductColor;
+export type ProductCardInterface = Product;
+export type ProductDetailInterface = Product;
+
 

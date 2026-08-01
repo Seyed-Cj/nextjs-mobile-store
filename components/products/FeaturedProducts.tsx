@@ -1,20 +1,19 @@
 import React from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { ProductCardInterface } from "@/types/product";
-import { featuredProducts as defaultProducts } from "@/lib/data/products";
+import { Product } from "@/types/product";
 import ProductSlider from "./ProductSlider";
 
 export interface FeaturedProductsProps {
   title?: string;
   viewAllHref?: string;
-  products?: ProductCardInterface[];
+  products: Product[];
 }
 
 export default function FeaturedProducts({
   title = "محصولات ویژه",
   viewAllHref = "/products",
-  products = defaultProducts,
+  products,
 }: FeaturedProductsProps) {
   return (
     <section dir="rtl" lang="fa" className="py-8 sm:py-12">
@@ -43,3 +42,4 @@ export default function FeaturedProducts({
     </section>
   );
 }
+

@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import ProductPage from "@/components/product/ProductPage";
-import { getProductById, featuredProducts } from "@/lib/data/products";
+import { getProductById, getFeaturedProducts } from "@/lib/data/products";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -9,7 +9,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const product = getProductById(id) ?? featuredProducts[0];
+  const featured = await getFeaturedProducts();
+  const product = (await getProductById(id)) ?? featured[0];
 
   return {
     title: `${product.name} | فروشگاه اپل`,
@@ -18,14 +19,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  return featuredProducts.map((product) => ({
+  const featured = await getFeaturedProducts();
+  return featured.map((product) => ({
     id: product.id,
   }));
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { id } = await params;
-  const product = getProductById(id) ?? featuredProducts[0];
+  const featured = await getFeaturedProducts();
+  const product = (await getProductById(id)) ?? featured[0];
 
   return <ProductPage product={product} />;
 }
+

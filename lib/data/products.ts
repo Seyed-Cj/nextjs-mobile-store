@@ -1,6 +1,6 @@
-import { ProductDetailInterface } from "@/types/product";
+import { Product } from "@/types/product";
 
-export const featuredProducts: ProductDetailInterface[] = [
+export const featuredProducts: Product[] = [
   {
     id: "iphone-17-pro",
     name: "آیفون 17 پرومکس",
@@ -107,7 +107,7 @@ export const featuredProducts: ProductDetailInterface[] = [
   },
 ];
 
-export const iPhoneProducts: ProductDetailInterface[] = [
+export const iPhoneProducts: Product[] = [
   {
     id: "iphone-17",
     name: "آیفون 17",
@@ -174,11 +174,20 @@ export const iPhoneProducts: ProductDetailInterface[] = [
   },
 ];
 
-export function getProductById(id: string): ProductDetailInterface | undefined {
+export async function getFeaturedProducts(): Promise<Product[]> {
+  return featuredProducts;
+}
+
+export async function getIPhoneProducts(): Promise<Product[]> {
+  return iPhoneProducts;
+}
+
+export async function getProductById(id: string): Promise<Product | undefined> {
   const normalizedId = id.toLowerCase().trim();
   return (
     featuredProducts.find((p) => p.id.toLowerCase() === normalizedId) ||
     iPhoneProducts.find((p) => p.id.toLowerCase() === normalizedId)
   );
 }
+
 
