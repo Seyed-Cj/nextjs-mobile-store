@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, ShoppingBag, ChevronDown, User } from "lucide-react";
+import { Search, ShoppingBag, ChevronDown, User, X } from "lucide-react";
 import { NavItem } from "@/types";
 import { navItems } from "@/constants/navItems";
 import AppleLogo from "@/components/ui/AppleLogo";
@@ -39,6 +39,7 @@ export default function Navbar({
   const [prevPathname, setPrevPathname] = useState(pathname);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const centerNavRef = useRef<HTMLDivElement>(null);
   const hamburgerBtnRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
 
@@ -112,7 +113,31 @@ export default function Navbar({
 
   // Focus the search field as soon as the search bar opens.
   useEffect(() => {
-    if (searchOpen) searchInputRef.current?.focus();
+    if (searchOpen) {
+      const timer = setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [searchOpen]);
+
+  // Click outside closes the search bar
+  useEffect(() => {
+    if (!searchOpen) return;
+
+    function handleClickOutside(e: MouseEvent | TouchEvent) {
+      if (
+        centerNavRef.current &&
+        !centerNavRef.current.contains(e.target as Node)
+      ) {
+        setSearchOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handleClickOutside);
+    return () => {
+      document.removeEventListener("pointerdown", handleClickOutside);
+    };
   }, [searchOpen]);
 
   // Escape closes whichever overlay is open.
@@ -126,8 +151,8 @@ export default function Navbar({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  function openSearch() {
-    setSearchOpen(true);
+  function toggleSearch() {
+    setSearchOpen((prev) => !prev);
     setMobileOpen(false);
   }
 
@@ -151,50 +176,96 @@ export default function Navbar({
             <AppleLogo />
           </Link>
 
-          {/* Desktop nav */}
-          <nav
-            aria-label="Global"
+          {/* Desktop nav & expandable search container */}
+          <div
+            ref={centerNavRef}
             dir="rtl"
-            className="hidden rounded-full border border-black/10 bg-white px-6 py-3 md:block"
+            className={`hidden md:flex items-center transition-all duration-300 ease-in-out ${
+              searchOpen
+                ? "flex-1 max-w-2xl mx-6 rounded-full border border-black/15 bg-white px-4 py-2 shadow-xs"
+                : "rounded-full border border-black/10 bg-white px-6 py-2.5"
+            }`}
           >
-            <ul className="flex items-center gap-8">
-              {items.map((item) => {
-                const active = pathname === item.href;
-                const hasDropdown = item.href === "/categories";
+            <div className="relative flex w-full items-center justify-center">
+              {/* Nav links */}
+              <nav
+                aria-label="Global"
+                className={`transition-all duration-200 ease-in-out ${
+                  searchOpen
+                    ? "pointer-events-none absolute opacity-0 scale-95 invisible"
+                    : "opacity-100 scale-100 visible"
+                }`}
+              >
+                <ul className="flex items-center gap-8">
+                  {items.map((item) => {
+                    const active = pathname === item.href;
+                    const hasDropdown = item.href === "/categories";
 
-                return (
-                  <li key={item.href} className="flex items-center">
-                    <Link
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`flex items-center gap-1 rounded px-0.5 py-0.5 text-sm font-normal tracking-tight transition-colors focus-visible:outline-1 focus-visible:outline-white/60 ${
-                        active ? "text-black" : "text-black/80 hover:text-black"
-                      }`}
-                    >
-                      {item.label}
-                      {hasDropdown && (
-                        <ChevronDown
-                          className="h-4 w-4 text-black/60"
-                          strokeWidth={1.5}
-                        />
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+                    return (
+                      <li key={item.href} className="flex items-center whitespace-nowrap">
+                        <Link
+                          href={item.href}
+                          aria-current={active ? "page" : undefined}
+                          className={`flex items-center gap-1 rounded px-0.5 py-0.5 text-sm font-normal tracking-tight transition-colors focus-visible:outline-1 focus-visible:outline-white/60 ${
+                            active ? "text-black" : "text-black/80 hover:text-black"
+                          }`}
+                        >
+                          {item.label}
+                          {hasDropdown && (
+                            <ChevronDown
+                              className="h-4 w-4 text-black/60"
+                              strokeWidth={1.5}
+                            />
+                          )}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+
+              {/* Search Form */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+                className={`flex w-full items-center gap-3 transition-all duration-200 ease-in-out ${
+                  searchOpen
+                    ? "opacity-100 scale-100 visible pointer-events-auto"
+                    : "pointer-events-none absolute opacity-0 scale-95 invisible"
+                }`}
+              >
+                <Search className="h-4.5 w-4.5 shrink-0 text-black/50" strokeWidth={1.75} />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="جستجو در محصولات..."
+                  className="w-full bg-transparent text-sm text-black placeholder:text-black/40 focus:outline-none font-normal"
+                />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  aria-label="بستن جستجو"
+                  className="shrink-0 rounded-full p-1 text-black/50 transition-colors hover:bg-black/5 hover:text-black focus-visible:outline-1 focus-visible:outline-black/60"
+                >
+                  <X className="h-4.5 w-4.5" strokeWidth={1.75} />
+                </button>
+              </form>
+            </div>
+          </div>
 
           {/* Right side actions */}
           <div className="flex items-center gap-5">
             <button
               type="button"
-              onClick={openSearch}
-              aria-label="Search apple.com"
+              onClick={toggleSearch}
+              aria-label="جستجو"
               aria-expanded={searchOpen}
               className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
             >
-              <Search className="h-5 w-5" strokeWidth={1.75} />
+              {!searchOpen && <Search className="h-5 w-5" strokeWidth={1.75} />}
             </button>
 
             <Link
@@ -246,36 +317,6 @@ export default function Navbar({
             </button>
           </div>
         </div>
-
-        {/* Desktop search bar */}
-        {searchOpen && (
-          <div className="absolute inset-x-0 top-9 hidden border-b border-black/10 bg-white md:block">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSearchOpen(false);
-              }}
-              className="mx-auto flex max-w-200 items-center gap-3 px-6 py-3"
-            >
-              <Search className="h-4 w-4 shrink-0 text-black/40" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search apple.com"
-                className="w-full bg-transparent text-sm text-black placeholder-white/40 focus:outline-none"
-              />
-              <button
-                type="button"
-                onClick={() => setSearchOpen(false)}
-                className="shrink-0 text-xs text-black/50 transition-colors hover:text-black"
-              >
-                Cancel
-              </button>
-            </form>
-          </div>
-        )}
       </header>
       {mounted &&
         createPortal(
