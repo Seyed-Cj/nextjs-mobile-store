@@ -9,3 +9,7 @@ export const navItems: NavItem[] = [
   { label: "لوازم جانبی", href: "/products/accessories" },
   { label: "تماس با ما", href: "/contact-us" },
 ];
+
+export async function getNavItems(): Promise<NavItem[]> {
+  return navItems;
+}

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, ChevronDown, User, X } from "lucide-react";
 import { NavItem } from "@/types";
-import { navItems } from "@/constants/navItems";
+import { navItems } from "@/lib/data/navigation";
 import AppleLogo from "@/components/ui/AppleLogo";
 
 export interface NavbarProps {

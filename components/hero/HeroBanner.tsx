@@ -1,6 +1,6 @@
 import React from "react";
 import { HeroSlideData } from "@/types/hero";
-import { heroSlides as defaultSlides } from "@/lib/data/heroSlides";
+import { heroSlides as defaultSlides } from "@/lib/data/hero-slides";
 import HeroSlider from "./HeroSlider";
 
 export interface HeroBannerProps {

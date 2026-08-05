@@ -80,3 +80,8 @@ export const contactData: ContactPageData = {
     },
   ],
 };
+
+export async function getContactData(): Promise<ContactPageData> {
+  return contactData;
+}
+

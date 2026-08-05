@@ -59,3 +59,8 @@ export const footerLinkColumns: FooterLinkColumn[] = [
     ],
   },
 ];
+
+export async function getFooterLinks(): Promise<FooterLinkColumn[]> {
+  return footerLinkColumns;
+}
+

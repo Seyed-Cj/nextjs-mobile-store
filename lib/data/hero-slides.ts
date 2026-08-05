@@ -23,3 +23,7 @@ export const heroSlides: HeroSlideData[] = [
     },
   },
 ];
+
+export function getHeroSlides(): HeroSlideData[] {
+  return heroSlides;
+}

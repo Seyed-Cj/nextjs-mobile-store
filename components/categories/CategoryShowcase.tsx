@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/types";
-import { categories } from "@/constants/categories";
+import { categories } from "@/lib/data/categories";
 
 function CategoryItem({ label, href, image }: Category) {
   const [imageError, setImageError] = useState(false);

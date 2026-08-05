@@ -13,3 +13,7 @@ export const categories: Category[] = [
   },
   { label: "اپل تیوی", href: "/products/appletv", image: "/categories/appletv-nav.png" },
 ];
+
+export async function getCategories(): Promise<Category[]> {
+  return categories;
+}

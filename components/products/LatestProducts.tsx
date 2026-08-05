@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import { products } from "@/constants/products";
+import { products } from "@/lib/data/products";
 import LatestProductCard from "./LatestProductCard";
 
 export default function LatestProducts() {
