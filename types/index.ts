@@ -19,3 +19,5 @@ export interface Product {
 }
 
 export * from "./product";
+export * from "./contact";
+

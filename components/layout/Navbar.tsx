@@ -265,7 +265,7 @@ export default function Navbar({
               aria-expanded={searchOpen}
               className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
             >
-              {!searchOpen && <Search className="h-5 w-5" strokeWidth={1.75} />}
+              {! searchOpen && <Search className="h-5 w-5" strokeWidth={1.75} />}
             </button>
 
             <Link
