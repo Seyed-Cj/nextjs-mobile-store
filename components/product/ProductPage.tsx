@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ProductDetailInterface } from "@/types/product";
 import ProductGallery from "./ProductGallery";
 import ProductInfo from "./ProductInfo";
+import ProductTabs from "./ProductTabs";
 import { ShieldCheck, BadgeCheck, Headphones, Package, ChevronLeft } from "lucide-react";
 
 interface ProductPageProps {
@@ -72,7 +73,10 @@ export default function ProductPage({ product }: ProductPageProps) {
         </div>
       </div>
 
-      {/* 3. Bottom Trust Bar */}
+      {/* 3. Product Tabs Section */}
+      <ProductTabs />
+
+      {/* 4. Bottom Trust Bar */}
       <div className="mt-12 sm:mt-16 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
           {bottomTrustBadges.map((badge) => {
