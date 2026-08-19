@@ -3,6 +3,11 @@ export interface ProductColor {
   hex: string;
 }
 
+export interface ProductSpec {
+  label: string;
+  value: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -15,6 +20,7 @@ export interface Product {
   tagline?: string;
   images?: string[];
   storageOptions?: string[];
+  specs?: ProductSpec[];
   installmentPrice?: number;
   description?: string;
   category?: string;

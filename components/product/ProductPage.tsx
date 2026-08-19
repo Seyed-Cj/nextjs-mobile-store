@@ -4,6 +4,7 @@ import { ProductDetailInterface } from "@/types/product";
 import ProductGallery from "./ProductGallery";
 import ProductInfo from "./ProductInfo";
 import ProductTabs from "./ProductTabs";
+import SpecsTable from "./SpecsTable";
 import { ShieldCheck, BadgeCheck, Headphones, Package, ChevronLeft } from "lucide-react";
 
 interface ProductPageProps {
@@ -74,7 +75,7 @@ export default function ProductPage({ product }: ProductPageProps) {
       </div>
 
       {/* 3. Product Tabs Section */}
-      <ProductTabs />
+      <ProductTabs specsContent={<SpecsTable specs={product.specs} />} />
 
       {/* 4. Bottom Trust Bar */}
       <div className="mt-12 sm:mt-16 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
