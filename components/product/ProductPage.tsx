@@ -5,6 +5,8 @@ import ProductGallery from "./ProductGallery";
 import ProductInfo from "./ProductInfo";
 import ProductTabs from "./ProductTabs";
 import SpecsTable from "./SpecsTable";
+import ProductReviewsSection from "./reviews/ProductReviewsSection";
+import { getReviewsByProductId } from "@/lib/data/reviews";
 import { ShieldCheck, BadgeCheck, Headphones, Package, ChevronLeft } from "lucide-react";
 
 interface ProductPageProps {
@@ -34,12 +36,15 @@ const bottomTrustBadges = [
   },
 ];
 
-export default function ProductPage({ product }: ProductPageProps) {
+export default async function ProductPage({ product }: ProductPageProps) {
   // Gallery images fallback
   const galleryImages =
     product.images && product.images.length > 0
       ? product.images
       : [product.image];
+
+  // Fetch product reviews
+  const reviews = await getReviewsByProductId(product.id);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -75,7 +80,16 @@ export default function ProductPage({ product }: ProductPageProps) {
       </div>
 
       {/* 3. Product Tabs Section */}
-      <ProductTabs specsContent={<SpecsTable specs={product.specs} />} />
+      <ProductTabs
+        reviewCount={reviews.length}
+        reviewsContent={
+          <ProductReviewsSection
+            productId={product.id}
+            initialReviews={reviews}
+          />
+        }
+        specsContent={<SpecsTable specs={product.specs} />}
+      />
 
       {/* 4. Bottom Trust Bar */}
       <div className="mt-12 sm:mt-16 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
