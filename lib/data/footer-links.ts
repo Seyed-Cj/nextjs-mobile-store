@@ -11,51 +11,52 @@ export interface FooterLinkColumn {
 
 export const footerLinkColumns: FooterLinkColumn[] = [
   {
-    heading: "ما را دنبال کنید",
+    heading: "محصولات آیفون",
     items: [
-      { label: "اینستاگرام", href: "#", iconType: "instagram" },
-      { label: "تلگرام", href: "#", iconType: "telegram" },
-      { label: "یوتیوب", href: "#", iconType: "youtube" },
+      { label: "آیفون ۱۷ پرومکس", href: "/products/iphone-17-pro-max" },
+      { label: "آیفون ۱۷", href: "/products/iphone-17" },
+      { label: "آیفون ۱۶ پرو", href: "/products/iphone-16-pro" },
+      { label: "آیفون ۱۶", href: "/products/iphone-16" },
+      { label: "همه مدل‌های آیفون", href: "/products/iphone" },
     ],
   },
   {
-    heading: "اطلاعات تماس",
+    heading: "محصولات مک",
     items: [
-      { label: "تماس با ما", href: "#" },
-      { label: "درباره ما", href: "#" },
-      { label: "قوانین سایت", href: "#" },
-      { label: "ضمانت بازگشت کالا", href: "#" },
-      { label: "رجیستری", href: "#" },
+      { label: "مک‌بوک پرو ۲۰۲۶", href: "/products/macbook-pro-2026" },
+      { label: "مک‌بوک نئو ۲۰۲۶", href: "/products/macbook-neo" },
+      { label: "همه مدل‌های مک", href: "/products/mac" },
+      { label: "همه محصولات اپل", href: "/products" },
     ],
   },
   {
-    heading: "محصولات جدید",
+    heading: "دسته‌بندی‌ها",
     items: [
-      { label: "آیفون 17E", href: "#" },
-      { label: "مک بوک پرو M5 Pro, M5 max", href: "#" },
-      { label: "مک بوک ایر M5", href: "#" },
-      { label: "مک بوک نئو Neo", href: "#" },
-      { label: "آیپد ایر M4", href: "#" },
+      { label: "گوشی آیفون", href: "/products/iphone" },
+      { label: "لپ‌تاپ مک‌بوک", href: "/products/mac" },
+      { label: "فروشگاه اپل", href: "/products" },
+      { label: "جدیدترین محصولات", href: "/products" },
     ],
   },
   {
     heading: "خدمات و پشتیبانی",
     items: [
-      { label: "تماس با ما", href: "#" },
-      { label: "سوالات متداول", href: "#" },
-      { label: "گارانتی و اصالت", href: "#" },
-      { label: "خدمات و تعمیرات", href: "#" },
-      { label: "پیگیری سفارش", href: "#" },
+      { label: "تماس با ما", href: "/contact-us" },
+      { label: "مشاوره و پشتیبانی", href: "/contact-us" },
+      { label: "ضمانت اصالت و گارانتی", href: "/contact-us" },
+      { label: "ارسال سریع و پیگیری", href: "/contact-us" },
     ],
   },
   {
-    heading: "محصولات",
+    heading: "ما را دنبال کنید",
     items: [
-      { label: "iPhone", href: "#" },
-      { label: "iPad", href: "#" },
-      { label: "Mac", href: "#" },
-      { label: "Watch", href: "#" },
-      { label: "AirPods", href: "#" },
+      {
+        label: "اینستاگرام",
+        href: "https://instagram.com",
+        iconType: "instagram",
+      },
+      { label: "تلگرام", href: "https://t.me", iconType: "telegram" },
+      { label: "یوتیوب", href: "https://youtube.com", iconType: "youtube" },
     ],
   },
 ];
@@ -63,4 +64,3 @@ export const footerLinkColumns: FooterLinkColumn[] = [
 export async function getFooterLinks(): Promise<FooterLinkColumn[]> {
   return footerLinkColumns;
 }
-

@@ -61,17 +61,22 @@ export default function FooterLinks() {
             {col.heading}
           </h4>
           <ul className="space-y-3">
-            {col.items.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className="flex w-fit items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900"
-                >
-                  {renderSocialIcon(item.iconType)}
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            ))}
+            {col.items.map((item) => {
+              const isExternal = item.href.startsWith("http");
+              return (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    className="flex w-fit items-center gap-2 text-sm text-gray-500 transition-colors hover:text-gray-900"
+                  >
+                    {renderSocialIcon(item.iconType)}
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       ))}

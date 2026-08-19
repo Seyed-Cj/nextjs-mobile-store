@@ -1,12 +1,11 @@
 import { NavItem } from "@/types";
 
 export const navItems: NavItem[] = [
+  { label: "همه محصولات", href: "/products" },
   { label: "آیفون", href: "/products/iphone" },
   { label: "مک", href: "/products/mac" },
-  { label: "آیپد", href: "/products/ipad" },
-  { label: "اپل واچ", href: "/products/watch" },
-  { label: "ایرپاد", href: "/products/airpods" },
-  { label: "لوازم جانبی", href: "/products/accessories" },
+  { label: "آیفون ۱۷ پرومکس", href: "/products/iphone-17-pro-max" },
+  { label: "مک‌بوک پرو ۲۰۲۶", href: "/products/macbook-pro-2026" },
   { label: "تماس با ما", href: "/contact-us" },
 ];
 
