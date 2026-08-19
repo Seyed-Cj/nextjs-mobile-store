@@ -6,7 +6,9 @@ import ProductInfo from "./ProductInfo";
 import ProductTabs from "./ProductTabs";
 import SpecsTable from "./SpecsTable";
 import ProductReviewsSection from "./reviews/ProductReviewsSection";
+import FaqAccordion from "./FaqAccordion";
 import { getReviewsByProductId } from "@/lib/data/reviews";
+import { getFaqs } from "@/lib/data/faq";
 import { ShieldCheck, BadgeCheck, Headphones, Package, ChevronLeft } from "lucide-react";
 
 interface ProductPageProps {
@@ -43,8 +45,11 @@ export default async function ProductPage({ product }: ProductPageProps) {
       ? product.images
       : [product.image];
 
-  // Fetch product reviews
-  const reviews = await getReviewsByProductId(product.id);
+  // Fetch product reviews and site FAQs
+  const [reviews, faqs] = await Promise.all([
+    getReviewsByProductId(product.id),
+    getFaqs(),
+  ]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -91,7 +96,10 @@ export default async function ProductPage({ product }: ProductPageProps) {
         specsContent={<SpecsTable specs={product.specs} />}
       />
 
-      {/* 4. Bottom Trust Bar */}
+      {/* 4. Frequently Asked Questions (FAQ) */}
+      <FaqAccordion faqs={faqs} />
+
+      {/* 5. Bottom Trust Bar */}
       <div className="mt-12 sm:mt-16 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
           {bottomTrustBadges.map((badge) => {
