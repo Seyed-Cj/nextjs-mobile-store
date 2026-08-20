@@ -39,7 +39,10 @@ export default function Navbar({
   const [prevPathname, setPrevPathname] = useState(pathname);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
   const centerNavRef = useRef<HTMLDivElement>(null);
+  const mobileSearchRowRef = useRef<HTMLDivElement>(null);
+  const searchToggleBtnRef = useRef<HTMLButtonElement>(null);
   const hamburgerBtnRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
 
@@ -115,7 +118,11 @@ export default function Navbar({
   useEffect(() => {
     if (searchOpen) {
       const timer = setTimeout(() => {
-        searchInputRef.current?.focus();
+        if (window.innerWidth >= 768) {
+          searchInputRef.current?.focus();
+        } else {
+          mobileSearchInputRef.current?.focus();
+        }
       }, 50);
       return () => clearTimeout(timer);
     }
@@ -126,10 +133,12 @@ export default function Navbar({
     if (!searchOpen) return;
 
     function handleClickOutside(e: MouseEvent | TouchEvent) {
-      if (
-        centerNavRef.current &&
-        !centerNavRef.current.contains(e.target as Node)
-      ) {
+      const target = e.target as Node;
+      const insideDesktop = centerNavRef.current?.contains(target);
+      const insideMobile = mobileSearchRowRef.current?.contains(target);
+      const insideToggle = searchToggleBtnRef.current?.contains(target);
+
+      if (!insideDesktop && !insideMobile && !insideToggle) {
         setSearchOpen(false);
       }
     }
@@ -164,9 +173,12 @@ export default function Navbar({
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 md:bg-[#fbfafd]/90 ${mobileOpen ? "bg-white" : "bg-[#f6f5f8]/90"} h-18 ${className}`}
+        className={`sticky top-0 z-50 md:bg-[#fbfafd]/90 ${
+          mobileOpen || searchOpen ? "bg-white" : "bg-[#f6f5f8]/90"
+        } backdrop-blur-md transition-colors duration-200 ${className}`}
       >
-        <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6">
+        {/* Main Navbar Row */}
+        <div className="mx-auto flex h-18 max-w-6xl items-center justify-between px-4 sm:px-6">
           {/* Logo */}
           <Link
             href="/"
@@ -180,9 +192,9 @@ export default function Navbar({
           <div
             ref={centerNavRef}
             dir="rtl"
-            className={`hidden md:flex items-center transition-all duration-300 ease-in-out ${
+            className={`hidden items-center transition-all duration-300 ease-in-out md:flex ${
               searchOpen
-                ? "flex-1 max-w-2xl mx-6 rounded-full border border-black/15 bg-white px-4 py-2 shadow-xs"
+                ? "mx-6 max-w-2xl flex-1 rounded-full border border-black/15 bg-white px-4 py-2 shadow-xs"
                 : "rounded-full border border-black/10 bg-white px-6 py-2.5"
             }`}
           >
@@ -192,8 +204,8 @@ export default function Navbar({
                 aria-label="Global"
                 className={`transition-all duration-200 ease-in-out ${
                   searchOpen
-                    ? "pointer-events-none absolute opacity-0 scale-95 invisible"
-                    : "opacity-100 scale-100 visible"
+                    ? "pointer-events-none invisible absolute scale-95 opacity-0"
+                    : "visible scale-100 opacity-100"
                 }`}
               >
                 <ul className="flex items-center gap-8">
@@ -202,12 +214,17 @@ export default function Navbar({
                     const hasDropdown = item.href === "/categories";
 
                     return (
-                      <li key={item.href} className="flex items-center whitespace-nowrap">
+                      <li
+                        key={item.href}
+                        className="flex items-center whitespace-nowrap"
+                      >
                         <Link
                           href={item.href}
                           aria-current={active ? "page" : undefined}
                           className={`flex items-center gap-1 rounded px-0.5 py-0.5 text-sm font-normal tracking-tight transition-colors focus-visible:outline-1 focus-visible:outline-white/60 ${
-                            active ? "text-black" : "text-black/80 hover:text-black"
+                            active
+                              ? "text-black"
+                              : "text-black/80 hover:text-black"
                           }`}
                         >
                           {item.label}
@@ -224,25 +241,28 @@ export default function Navbar({
                 </ul>
               </nav>
 
-              {/* Search Form */}
+              {/* Desktop Search Form */}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                 }}
                 className={`flex w-full items-center gap-3 transition-all duration-200 ease-in-out ${
                   searchOpen
-                    ? "opacity-100 scale-100 visible pointer-events-auto"
-                    : "pointer-events-none absolute opacity-0 scale-95 invisible"
+                    ? "pointer-events-auto visible scale-100 opacity-100"
+                    : "pointer-events-none invisible absolute scale-95 opacity-0"
                 }`}
               >
-                <Search className="h-4.5 w-4.5 shrink-0 text-black/50" strokeWidth={1.75} />
+                <Search
+                  className="h-4.5 w-4.5 shrink-0 text-black/50"
+                  strokeWidth={1.75}
+                />
                 <input
                   ref={searchInputRef}
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="جستجو در محصولات..."
-                  className="w-full bg-transparent text-sm text-black placeholder:text-black/40 focus:outline-none font-normal"
+                  className="w-full bg-transparent text-sm font-normal text-black placeholder:text-black/40 focus:outline-none"
                 />
                 <button
                   type="button"
@@ -259,13 +279,16 @@ export default function Navbar({
           {/* Right side actions */}
           <div className="flex items-center gap-5">
             <button
+              ref={searchToggleBtnRef}
               type="button"
               onClick={toggleSearch}
               aria-label="جستجو"
               aria-expanded={searchOpen}
-              className="rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
+              className={`rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60 ${
+                searchOpen ? "hidden" : ""
+              }`}
             >
-              {! searchOpen && <Search className="h-5 w-5" strokeWidth={1.75} />}
+              <Search className="h-5 w-5" strokeWidth={1.75} />
             </button>
 
             <Link
@@ -317,7 +340,52 @@ export default function Navbar({
             </button>
           </div>
         </div>
+
+        {/* Mobile search row - renders directly below the navbar row */}
+        <div
+          ref={mobileSearchRowRef}
+          dir="rtl"
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out md:hidden ${
+            searchOpen
+              ? "grid-rows-[1fr] border-b border-black/10 opacity-100 shadow-xs"
+              : "pointer-events-none grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="px-4 pt-1 pb-3.5 sm:px-6">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+                className="flex w-full items-center gap-3 rounded-full border border-black/15 bg-[#f5f5f7] px-4 py-2.5 transition-all focus-within:border-black/30 focus-within:bg-white focus-within:shadow-xs"
+              >
+                <Search
+                  className="h-4.5 w-4.5 shrink-0 text-black/50"
+                  strokeWidth={1.75}
+                />
+                <input
+                  ref={mobileSearchInputRef}
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="جستجو در محصولات..."
+                  className="w-full bg-transparent text-sm font-normal text-black placeholder:text-black/40 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  aria-label="بستن جستجو"
+                  className="shrink-0 rounded-full p-1 text-black/50 transition-colors hover:bg-black/5 hover:text-black focus-visible:outline-1 focus-visible:outline-black/60"
+                >
+                  <X className="h-4.5 w-4.5" strokeWidth={1.75} />
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </header>
+
+      {/* Mobile navigation drawer portal */}
       {mounted &&
         createPortal(
           <nav
@@ -325,7 +393,7 @@ export default function Navbar({
             id="mobile-nav"
             aria-label="Mobile"
             aria-hidden={!mobileOpen}
-            className={`fixed inset-x-0 top-14 bottom-0 z-60 overflow-y-auto overscroll-contain bg-white px-6 pt-4 pb-10 transition-all duration-300 ease-out motion-reduce:transition-none md:hidden ${
+            className={`fixed inset-x-0 top-18 bottom-0 z-60 overflow-y-auto overscroll-contain bg-white px-6 pt-4 pb-10 transition-all duration-300 ease-out motion-reduce:transition-none md:hidden ${
               mobileOpen
                 ? "pointer-events-auto translate-y-0 opacity-100"
                 : "pointer-events-none -translate-y-4 opacity-0"
