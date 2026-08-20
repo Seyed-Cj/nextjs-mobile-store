@@ -8,6 +8,18 @@ export interface ProductSpec {
   value: string;
 }
 
+export interface ProductVariant {
+  id: string;
+  sku: string;
+  colorName: string;
+  colorHex?: string;
+  storage: string;
+  price: number;
+  originalPrice?: number;
+  stock: number;
+  inStock: boolean;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -20,6 +32,8 @@ export interface Product {
   tagline?: string;
   images?: string[];
   storageOptions?: string[];
+  variants?: ProductVariant[];
+  totalStock?: number;
   specs?: ProductSpec[];
   installmentPrice?: number;
   description?: string;

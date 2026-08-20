@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Product } from "@/types";
+import { LatestProductSlide } from "@/types";
 
 export interface LatestProductCardProps {
-  product: Product;
+  product: LatestProductSlide;
 }
 
 export default function LatestProductCard({ product }: LatestProductCardProps) {

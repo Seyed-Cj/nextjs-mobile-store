@@ -10,6 +10,7 @@ export interface CartItem {
   selectedColor?: ProductColor;
   selectedStorage?: string;
   quantity: number;
+  maxStock?: number;
   href: string;
 }
 

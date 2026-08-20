@@ -9,7 +9,7 @@ export interface Category {
   image?: string;
 }
 
-export interface Product {
+export interface LatestProductSlide {
   tag: string;
   title: string;
   description: string;
@@ -21,4 +21,6 @@ export interface Product {
 export * from "./product";
 export * from "./contact";
 export * from "./cart";
-
+export * from "./faq";
+export * from "./hero";
+export * from "./review";

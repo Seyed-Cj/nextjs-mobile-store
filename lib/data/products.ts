@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product, ProductVariant } from "@/types/product";
 
 export const allProducts: Product[] = [
   {
@@ -20,6 +20,26 @@ export const allProducts: Product[] = [
       { name: "آبی (Blue)", hex: "#42475C" },
     ],
     storageOptions: ["256GB", "512GB", "1TB", "2TB"],
+    variants: [
+      // Orange variants
+      { id: "var-17pm-org-256", sku: "IPH17PM-ORG-256", colorName: "نارنجی (Orange)", colorHex: "#FE8E49", storage: "256GB", price: 275000000, stock: 5, inStock: true },
+      { id: "var-17pm-org-512", sku: "IPH17PM-ORG-512", colorName: "نارنجی (Orange)", colorHex: "#FE8E49", storage: "512GB", price: 305000000, stock: 2, inStock: true }, // Low stock test
+      { id: "var-17pm-org-1tb", sku: "IPH17PM-ORG-1TB", colorName: "نارنجی (Orange)", colorHex: "#FE8E49", storage: "1TB", price: 345000000, stock: 0, inStock: false }, // Out of stock test
+      // Note: 2TB Orange is omitted intentionally to test non-existent SKU combination
+
+      // Silver variants
+      { id: "var-17pm-slv-256", sku: "IPH17PM-SLV-256", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "256GB", price: 275000000, stock: 8, inStock: true },
+      { id: "var-17pm-slv-512", sku: "IPH17PM-SLV-512", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "512GB", price: 305000000, stock: 4, inStock: true },
+      { id: "var-17pm-slv-1tb", sku: "IPH17PM-SLV-1TB", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "1TB", price: 345000000, stock: 3, inStock: true },
+      { id: "var-17pm-slv-2tb", sku: "IPH17PM-SLV-2TB", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "2TB", price: 395000000, stock: 1, inStock: true },
+
+      // Blue variants
+      { id: "var-17pm-blu-256", sku: "IPH17PM-BLU-256", colorName: "آبی (Blue)", colorHex: "#42475C", storage: "256GB", price: 275000000, stock: 6, inStock: true },
+      { id: "var-17pm-blu-512", sku: "IPH17PM-BLU-512", colorName: "آبی (Blue)", colorHex: "#42475C", storage: "512GB", price: 305000000, stock: 3, inStock: true },
+      { id: "var-17pm-blu-1tb", sku: "IPH17PM-BLU-1TB", colorName: "آبی (Blue)", colorHex: "#42475C", storage: "1TB", price: 345000000, stock: 2, inStock: true },
+      { id: "var-17pm-blu-2tb", sku: "IPH17PM-BLU-2TB", colorName: "آبی (Blue)", colorHex: "#42475C", storage: "2TB", price: 395000000, stock: 0, inStock: false },
+    ],
+    totalStock: 34,
     specs: [
       { label: "صفحه نمایش", value: "۶.۹ اینچ Super Retina XDR OLED با ProMotion ۱۲۰Hz" },
       { label: "تراشه پردازنده", value: "Apple A19 Pro (۳ نانومتری نسل ۲)" },
@@ -62,6 +82,24 @@ export const allProducts: Product[] = [
       { name: "مشکی (Black)", hex: "#38373B" },
     ],
     storageOptions: ["256GB", "512GB", "1TB"],
+    variants: [
+      { id: "var-17-sag-256", sku: "IPH17-SAG-256", colorName: "سبز مریم‌گلی (Sage)", colorHex: "#8FA698", storage: "256GB", price: 205000000, stock: 6, inStock: true },
+      { id: "var-17-sag-512", sku: "IPH17-SAG-512", colorName: "سبز مریم‌گلی (Sage)", colorHex: "#8FA698", storage: "512GB", price: 230000000, stock: 3, inStock: true },
+      { id: "var-17-sag-1tb", sku: "IPH17-SAG-1TB", colorName: "سبز مریم‌گلی (Sage)", colorHex: "#8FA698", storage: "1TB", price: 265000000, stock: 1, inStock: true },
+
+      { id: "var-17-pnk-256", sku: "IPH17-PNK-256", colorName: "صورتی (Pink)", colorHex: "#EBCBD4", storage: "256GB", price: 205000000, stock: 4, inStock: true },
+      { id: "var-17-pnk-512", sku: "IPH17-PNK-512", colorName: "صورتی (Pink)", colorHex: "#EBCBD4", storage: "512GB", price: 230000000, stock: 2, inStock: true },
+      { id: "var-17-pnk-1tb", sku: "IPH17-PNK-1TB", colorName: "صورتی (Pink)", colorHex: "#EBCBD4", storage: "1TB", price: 265000000, stock: 0, inStock: false }, // Out of stock test
+
+      { id: "var-17-wht-256", sku: "IPH17-WHT-256", colorName: "سفید (White)", colorHex: "#F2F1EC", storage: "256GB", price: 205000000, stock: 8, inStock: true },
+      { id: "var-17-wht-512", sku: "IPH17-WHT-512", colorName: "سفید (White)", colorHex: "#F2F1EC", storage: "512GB", price: 230000000, stock: 5, inStock: true },
+      { id: "var-17-wht-1tb", sku: "IPH17-WHT-1TB", colorName: "سفید (White)", colorHex: "#F2F1EC", storage: "1TB", price: 265000000, stock: 2, inStock: true },
+
+      { id: "var-17-blk-256", sku: "IPH17-BLK-256", colorName: "مشکی (Black)", colorHex: "#38373B", storage: "256GB", price: 205000000, stock: 10, inStock: true },
+      { id: "var-17-blk-512", sku: "IPH17-BLK-512", colorName: "مشکی (Black)", colorHex: "#38373B", storage: "512GB", price: 230000000, stock: 4, inStock: true },
+      { id: "var-17-blk-1tb", sku: "IPH17-BLK-1TB", colorName: "مشکی (Black)", colorHex: "#38373B", storage: "1TB", price: 265000000, stock: 2, inStock: true },
+    ],
+    totalStock: 47,
     specs: [
       { label: "صفحه نمایش", value: "۶.۳ اینچ Super Retina XDR با ProMotion ۱۲۰Hz" },
       { label: "تراشه پردازنده", value: "Apple A19 Bionic (۳ نانومتری)" },
@@ -99,6 +137,28 @@ export const allProducts: Product[] = [
       { name: "مشکی (Black Titanium)", hex: "#38373B" },
     ],
     storageOptions: ["128GB", "256GB", "512GB", "1TB"],
+    variants: [
+      { id: "var-16p-dst-128", sku: "IPH16P-DST-128", colorName: "صحرا (Desert Titanium)", colorHex: "#C0A794", storage: "128GB", price: 215000000, stock: 4, inStock: true },
+      { id: "var-16p-dst-256", sku: "IPH16P-DST-256", colorName: "صحرا (Desert Titanium)", colorHex: "#C0A794", storage: "256GB", price: 235000000, stock: 3, inStock: true },
+      { id: "var-16p-dst-512", sku: "IPH16P-DST-512", colorName: "صحرا (Desert Titanium)", colorHex: "#C0A794", storage: "512GB", price: 265000000, stock: 1, inStock: true },
+      { id: "var-16p-dst-1tb", sku: "IPH16P-DST-1TB", colorName: "صحرا (Desert Titanium)", colorHex: "#C0A794", storage: "1TB", price: 295000000, stock: 0, inStock: false },
+
+      { id: "var-16p-nat-128", sku: "IPH16P-NAT-128", colorName: "طبیعی (Natural Titanium)", colorHex: "#BEB7A4", storage: "128GB", price: 215000000, stock: 5, inStock: true },
+      { id: "var-16p-nat-256", sku: "IPH16P-NAT-256", colorName: "طبیعی (Natural Titanium)", colorHex: "#BEB7A4", storage: "256GB", price: 235000000, stock: 3, inStock: true },
+      { id: "var-16p-nat-512", sku: "IPH16P-NAT-512", colorName: "طبیعی (Natural Titanium)", colorHex: "#BEB7A4", storage: "512GB", price: 265000000, stock: 2, inStock: true },
+      { id: "var-16p-nat-1tb", sku: "IPH16P-NAT-1TB", colorName: "طبیعی (Natural Titanium)", colorHex: "#BEB7A4", storage: "1TB", price: 295000000, stock: 1, inStock: true },
+
+      { id: "var-16p-wht-128", sku: "IPH16P-WHT-128", colorName: "سفید (White Titanium)", colorHex: "#F2F1EC", storage: "128GB", price: 215000000, stock: 6, inStock: true },
+      { id: "var-16p-wht-256", sku: "IPH16P-WHT-256", colorName: "سفید (White Titanium)", colorHex: "#F2F1EC", storage: "256GB", price: 235000000, stock: 4, inStock: true },
+      { id: "var-16p-wht-512", sku: "IPH16P-WHT-512", colorName: "سفید (White Titanium)", colorHex: "#F2F1EC", storage: "512GB", price: 265000000, stock: 2, inStock: true },
+      { id: "var-16p-wht-1tb", sku: "IPH16P-WHT-1TB", colorName: "سفید (White Titanium)", colorHex: "#F2F1EC", storage: "1TB", price: 295000000, stock: 1, inStock: true },
+
+      { id: "var-16p-blk-128", sku: "IPH16P-BLK-128", colorName: "مشکی (Black Titanium)", colorHex: "#38373B", storage: "128GB", price: 215000000, stock: 7, inStock: true },
+      { id: "var-16p-blk-256", sku: "IPH16P-BLK-256", colorName: "مشکی (Black Titanium)", colorHex: "#38373B", storage: "256GB", price: 235000000, stock: 5, inStock: true },
+      { id: "var-16p-blk-512", sku: "IPH16P-BLK-512", colorName: "مشکی (Black Titanium)", colorHex: "#38373B", storage: "512GB", price: 265000000, stock: 2, inStock: true },
+      { id: "var-16p-blk-1tb", sku: "IPH16P-BLK-1TB", colorName: "مشکی (Black Titanium)", colorHex: "#38373B", storage: "1TB", price: 295000000, stock: 1, inStock: true },
+    ],
+    totalStock: 47,
     specs: [
       { label: "صفحه نمایش", value: "۶.۳ اینچ Super Retina XDR OLED با ProMotion ۱۲۰Hz" },
       { label: "تراشه پردازنده", value: "Apple A18 Pro" },
@@ -140,6 +200,24 @@ export const allProducts: Product[] = [
       { name: "آبی آسمانی (Sky Blue)", hex: "#A2B4F9" },
     ],
     storageOptions: ["128GB", "256GB", "512GB"],
+    variants: [
+      { id: "var-16-pnk-128", sku: "IPH16-PNK-128", colorName: "صورتی (Pink)", colorHex: "#EBCBD4", storage: "128GB", price: 185000000, stock: 5, inStock: true },
+      { id: "var-16-pnk-256", sku: "IPH16-PNK-256", colorName: "صورتی (Pink)", colorHex: "#EBCBD4", storage: "256GB", price: 205000000, stock: 3, inStock: true },
+      { id: "var-16-pnk-512", sku: "IPH16-PNK-512", colorName: "صورتی (Pink)", colorHex: "#EBCBD4", storage: "512GB", price: 235000000, stock: 1, inStock: true },
+
+      { id: "var-16-wht-128", sku: "IPH16-WHT-128", colorName: "سفید (White)", colorHex: "#F2F1EC", storage: "128GB", price: 185000000, stock: 6, inStock: true },
+      { id: "var-16-wht-256", sku: "IPH16-WHT-256", colorName: "سفید (White)", colorHex: "#F2F1EC", storage: "256GB", price: 205000000, stock: 4, inStock: true },
+      { id: "var-16-wht-512", sku: "IPH16-WHT-512", colorName: "سفید (White)", colorHex: "#F2F1EC", storage: "512GB", price: 235000000, stock: 2, inStock: true },
+
+      { id: "var-16-blk-128", sku: "IPH16-BLK-128", colorName: "مشکی (Black)", colorHex: "#2E3033", storage: "128GB", price: 185000000, stock: 7, inStock: true },
+      { id: "var-16-blk-256", sku: "IPH16-BLK-256", colorName: "مشکی (Black)", colorHex: "#2E3033", storage: "256GB", price: 205000000, stock: 5, inStock: true },
+      { id: "var-16-blk-512", sku: "IPH16-BLK-512", colorName: "مشکی (Black)", colorHex: "#2E3033", storage: "512GB", price: 235000000, stock: 2, inStock: true },
+
+      { id: "var-16-sky-128", sku: "IPH16-SKY-128", colorName: "آبی آسمانی (Sky Blue)", colorHex: "#A2B4F9", storage: "128GB", price: 185000000, stock: 4, inStock: true },
+      { id: "var-16-sky-256", sku: "IPH16-SKY-256", colorName: "آبی آسمانی (Sky Blue)", colorHex: "#A2B4F9", storage: "256GB", price: 205000000, stock: 2, inStock: true },
+      { id: "var-16-sky-512", sku: "IPH16-SKY-512", colorName: "آبی آسمانی (Sky Blue)", colorHex: "#A2B4F9", storage: "512GB", price: 235000000, stock: 0, inStock: false },
+    ],
+    totalStock: 41,
     specs: [
       { label: "صفحه نمایش", value: "۶.۱ اینچ Super Retina XDR OLED با روشنایی ۲۰۰۰ نیت" },
       { label: "تراشه پردازنده", value: "Apple A18 (تراشه ۶ هسته‌ای)" },
@@ -178,6 +256,23 @@ export const allProducts: Product[] = [
       { name: "خاکستری فضایی (Space Gray)", hex: "#68696E" },
     ],
     storageOptions: ["512GB", "1TB", "2TB", "4TB"],
+    variants: [
+      { id: "var-mbp-spb-512", sku: "MBP26-SPB-512", colorName: "مشکی فضایی (Space Black)", colorHex: "#232426", storage: "512GB", price: 240000000, stock: 4, inStock: true },
+      { id: "var-mbp-spb-1tb", sku: "MBP26-SPB-1TB", colorName: "مشکی فضایی (Space Black)", colorHex: "#232426", storage: "1TB", price: 280000000, stock: 3, inStock: true },
+      { id: "var-mbp-spb-2tb", sku: "MBP26-SPB-2TB", colorName: "مشکی فضایی (Space Black)", colorHex: "#232426", storage: "2TB", price: 335000000, stock: 1, inStock: true },
+      { id: "var-mbp-spb-4tb", sku: "MBP26-SPB-4TB", colorName: "مشکی فضایی (Space Black)", colorHex: "#232426", storage: "4TB", price: 410000000, stock: 0, inStock: false },
+
+      { id: "var-mbp-slv-512", sku: "MBP26-SLV-512", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "512GB", price: 240000000, stock: 5, inStock: true },
+      { id: "var-mbp-slv-1tb", sku: "MBP26-SLV-1TB", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "1TB", price: 280000000, stock: 2, inStock: true },
+      { id: "var-mbp-slv-2tb", sku: "MBP26-SLV-2TB", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "2TB", price: 335000000, stock: 1, inStock: true },
+      { id: "var-mbp-slv-4tb", sku: "MBP26-SLV-4TB", colorName: "نقره‌ای (Silver)", colorHex: "#E2E4E1", storage: "4TB", price: 410000000, stock: 1, inStock: true },
+
+      { id: "var-mbp-spg-512", sku: "MBP26-SPG-512", colorName: "خاکستری فضایی (Space Gray)", colorHex: "#68696E", storage: "512GB", price: 240000000, stock: 3, inStock: true },
+      { id: "var-mbp-spg-1tb", sku: "MBP26-SPG-1TB", colorName: "خاکستری فضایی (Space Gray)", colorHex: "#68696E", storage: "1TB", price: 280000000, stock: 2, inStock: true },
+      { id: "var-mbp-spg-2tb", sku: "MBP26-SPG-2TB", colorName: "خاکستری فضایی (Space Gray)", colorHex: "#68696E", storage: "2TB", price: 335000000, stock: 0, inStock: false },
+      { id: "var-mbp-spg-4tb", sku: "MBP26-SPG-4TB", colorName: "خاکستری فضایی (Space Gray)", colorHex: "#68696E", storage: "4TB", price: 410000000, stock: 0, inStock: false },
+    ],
+    totalStock: 22,
     specs: [
       { label: "صفحه نمایش", value: "۱۶.۲ اینچ Liquid Retina XDR (وضوح ۳۴۵۶ × ۲۲۳۴ پیکسل با روشنایی ۱۶۰۰ نیت)" },
       { label: "تراشه پردازنده", value: "Apple M5 Pro / M5 Max (تراشه قدرتمند ۱۶ تا ۲۴ هسته‌ای)" },
@@ -214,6 +309,20 @@ export const allProducts: Product[] = [
       { name: "نقره‌ای (Silver)", hex: "#E3E4E6" },
     ],
     storageOptions: ["256GB", "512GB", "1TB"],
+    variants: [
+      { id: "var-neo-mid-256", sku: "MBNEO-MID-256", colorName: "میدنایت (Midnight)", colorHex: "#1C2331", storage: "256GB", price: 130000000, stock: 5, inStock: true },
+      { id: "var-neo-mid-512", sku: "MBNEO-MID-512", colorName: "میدنایت (Midnight)", colorHex: "#1C2331", storage: "512GB", price: 155000000, stock: 3, inStock: true },
+      { id: "var-neo-mid-1tb", sku: "MBNEO-MID-1TB", colorName: "میدنایت (Midnight)", colorHex: "#1C2331", storage: "1TB", price: 190000000, stock: 1, inStock: true },
+
+      { id: "var-neo-sta-256", sku: "MBNEO-STA-256", colorName: "استارلایت (Starlight)", colorHex: "#F5EBE6", storage: "256GB", price: 130000000, stock: 6, inStock: true },
+      { id: "var-neo-sta-512", sku: "MBNEO-STA-512", colorName: "استارلایت (Starlight)", colorHex: "#F5EBE6", storage: "512GB", price: 155000000, stock: 2, inStock: true },
+      { id: "var-neo-sta-1tb", sku: "MBNEO-STA-1TB", colorName: "استارلایت (Starlight)", colorHex: "#F5EBE6", storage: "1TB", price: 190000000, stock: 0, inStock: false },
+
+      { id: "var-neo-slv-256", sku: "MBNEO-SLV-256", colorName: "نقره‌ای (Silver)", colorHex: "#E3E4E6", storage: "256GB", price: 130000000, stock: 4, inStock: true },
+      { id: "var-neo-slv-512", sku: "MBNEO-SLV-512", colorName: "نقره‌ای (Silver)", colorHex: "#E3E4E6", storage: "512GB", price: 155000000, stock: 2, inStock: true },
+      { id: "var-neo-slv-1tb", sku: "MBNEO-SLV-1TB", colorName: "نقره‌ای (Silver)", colorHex: "#E3E4E6", storage: "1TB", price: 190000000, stock: 1, inStock: true },
+    ],
+    totalStock: 24,
     specs: [
       { label: "صفحه نمایش", value: "۱۳.۶ اینچ Liquid Retina با ۵۰۰ نیت روشنایی و پشتیبانی از ۱ میلیارد رنگ" },
       { label: "تراشه پردازنده", value: "Apple M4 نسل جدید با بازدهی حرارتی فوق‌العاده" },

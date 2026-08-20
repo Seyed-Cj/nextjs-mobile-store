@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ShieldCheck, ArrowRight, ArrowLeft, ShoppingBag, Headphones } from "lucide-react";
 import AppleLogo from "@/components/ui/AppleLogo";
+import { STORE_PHONE } from "@/lib/data/contact";
 
 export const metadata: Metadata = {
   title: "درگاه پرداخت و تسویه حساب | فروشگاه اپل",
@@ -55,10 +56,10 @@ export default function CheckoutPage() {
         <Headphones className="h-4 w-4 text-neutral-700" />
         <span>برای ثبت تلفنی سفارش یا راهنمایی با ما در تماس باشید:</span>
         <a
-          href="tel:02191012345"
+          href={STORE_PHONE.href}
           className="font-bold text-black hover:underline dir-ltr"
         >
-          ۰۲۱-۹۱۰۱۲۳۴۵
+          {STORE_PHONE.value}
         </a>
       </div>
     </div>

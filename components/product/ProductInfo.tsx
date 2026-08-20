@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { ProductDetailInterface } from "@/types/product";
 import { formatPersianPrice, toPersianDigits } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
+import { STORE_PHONE } from "@/lib/data/contact";
 import {
   ShieldCheck,
   Truck,
@@ -12,6 +13,8 @@ import {
   ShoppingBag,
   Headphones,
   Check,
+  AlertCircle,
+  PackageX,
 } from "lucide-react";
 
 interface ProductInfoProps {
@@ -35,6 +38,20 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       ? product.storageOptions
       : ["256GB", "512GB", "1TB", "2TB"];
   const [selectedStorage, setSelectedStorage] = useState(storageOptions[0]);
+
+  // Active Variant & Stock Lookup
+  const activeVariant = product.variants?.find(
+    (v) => v.colorName === selectedColor.name && v.storage === selectedStorage,
+  );
+
+  // Stock status conditions (Case 1: Stock 0 vs Case 2: Non-existent SKU vs In-stock)
+  const isOfferedSku = product.variants ? activeVariant !== undefined : true;
+  const stockCount = activeVariant ? activeVariant.stock : (product.totalStock ?? 10);
+  const isInStock = isOfferedSku && stockCount > 0;
+  const isLowStock = isOfferedSku && stockCount > 0 && stockCount <= 3;
+
+  // Base unit price dynamically resolved from variant or product fallback
+  const baseUnitPrice = activeVariant?.price ?? product.priceFrom;
 
   // Wishlist toggle state
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -60,13 +77,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
   // Price formatting (updates total when insurance is checked)
   const currentTotalPrice =
-    product.priceFrom + (hasInsurance ? PLACEHOLDER_INSURANCE.price : 0);
+    baseUnitPrice + (hasInsurance ? PLACEHOLDER_INSURANCE.price : 0);
   const formattedPriceDigits = toPersianDigits(
     currentTotalPrice.toLocaleString("en-US"),
   );
   const currencyLabel = product.currency ?? "تومان";
 
   const handleAddToCart = () => {
+    if (!isInStock) return;
+
     addItem({
       productId: product.id,
       name: product.name,
@@ -77,6 +96,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         product.colors && product.colors.length > 0 ? selectedColor : undefined,
       selectedStorage:
         storageOptions.length > 0 ? selectedStorage : undefined,
+      maxStock: activeVariant ? activeVariant.stock : undefined,
       href: product.href,
     });
 
@@ -109,8 +129,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </p>
       </div>
 
-      {/* Price Section */}
-      <div className="w-fit rounded-2xl border border-gray-100 bg-neutral-50/60 p-4">
+      {/* Price Section & Stock Status */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-neutral-50/60 p-4">
         <div className="flex items-baseline gap-1.5">
           <span className="text-2xl sm:text-3xl font-bold text-neutral-900">
             {formattedPriceDigits}
@@ -118,6 +138,31 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           <span className="text-base font-normal text-gray-600">
             {currencyLabel}
           </span>
+        </div>
+
+        {/* Stock Status Badge */}
+        <div>
+          {!isOfferedSku ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-200/70 px-3 py-1 text-xs font-semibold text-neutral-600">
+              <PackageX className="h-3.5 w-3.5" />
+              <span>این ترکیب ارائه نمی‌شود</span>
+            </span>
+          ) : !isInStock ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700">
+              <PackageX className="h-3.5 w-3.5" />
+              <span>ناموجود در انبار</span>
+            </span>
+          ) : isLowStock ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800 animate-pulse">
+              <AlertCircle className="h-3.5 w-3.5 text-amber-600" />
+              <span>تنها {toPersianDigits(stockCount)} عدد در انبار</span>
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200/60">
+              <Check className="h-3.5 w-3.5 text-emerald-600" />
+              <span>موجود در انبار</span>
+            </span>
+          )}
         </div>
       </div>
 
@@ -136,7 +181,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                   key={`${color.name}-${index}`}
                   type="button"
                   onClick={() => setSelectedColor(color)}
-                  className={`relative h-7 w-7 rounded-full border border-black/15 shadow-2xs transition-all duration-200 hover:scale-110 ${
+                  className={`relative h-7 w-7 rounded-full border border-black/15 shadow-2xs transition-all duration-200 hover:scale-110 cursor-pointer ${
                     isSelected
                       ? "ring-2 ring-black ring-offset-2 scale-110"
                       : "opacity-90 hover:opacity-100"
@@ -154,25 +199,46 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Storage Selector */}
       <div className="flex flex-col gap-3">
-        <span className="text-sm font-semibold text-gray-900">
-          حافظه داخلی
-        </span>
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold text-gray-900">
+            حافظه داخلی
+          </span>
+          {activeVariant && (
+            <span className="text-xs text-neutral-500">
+              کد کالا: <span className="font-mono text-neutral-700 dir-ltr">{activeVariant.sku}</span>
+            </span>
+          )}
+        </div>
         <div className="flex flex-wrap gap-2.5">
           {storageOptions.map((option) => {
             const isSelected = selectedStorage === option;
+            const optVariant = product.variants?.find(
+              (v) => v.colorName === selectedColor.name && v.storage === option,
+            );
+            const isOptOffered = product.variants ? optVariant !== undefined : true;
+            const isOptInStock = optVariant ? optVariant.stock > 0 : isOptOffered;
+
             return (
               <button
                 key={option}
                 type="button"
                 onClick={() => setSelectedStorage(option)}
-                className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-200 min-w-17.5 text-center ${
+                className={`relative rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all duration-200 min-w-17.5 text-center cursor-pointer ${
                   isSelected
                     ? "border-black bg-black text-white shadow-xs"
+                    : !isOptOffered || !isOptInStock
+                    ? "border-dashed border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50"
                 }`}
                 aria-pressed={isSelected}
               >
-                {toPersianDigits(option)}
+                <span>{toPersianDigits(option)}</span>
+                {!isOptInStock && isOptOffered && (
+                  <span className="block text-[9px] font-normal text-rose-500">ناموجود</span>
+                )}
+                {!isOptOffered && (
+                  <span className="block text-[9px] font-normal text-gray-400">ارائه نمی‌شود</span>
+                )}
               </button>
             );
           })}
@@ -241,7 +307,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <button
           type="button"
           onClick={() => setIsWishlisted(!isWishlisted)}
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-all duration-200 active:scale-95 ${
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-all duration-200 active:scale-95 cursor-pointer ${
             isWishlisted
               ? "border-rose-500 bg-rose-50 text-rose-500"
               : "border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50"
@@ -260,12 +326,27 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="flex h-12 flex-1 items-center justify-center gap-2.5 rounded-full bg-black px-6 text-sm font-semibold text-white transition-all duration-200 hover:bg-neutral-800 active:scale-[0.98] shadow-xs"
+          disabled={!isInStock}
+          className={`flex h-12 flex-1 items-center justify-center gap-2.5 rounded-full px-6 text-sm font-semibold transition-all duration-200 shadow-xs ${
+            !isInStock
+              ? "bg-neutral-200 text-neutral-400 cursor-not-allowed"
+              : "bg-black text-white hover:bg-neutral-800 active:scale-[0.98] cursor-pointer"
+          }`}
         >
           {isAddedToCart ? (
             <>
               <Check className="h-5 w-5 text-emerald-400" />
               <span>به سبد خرید اضافه شد</span>
+            </>
+          ) : !isOfferedSku ? (
+            <>
+              <PackageX className="h-5 w-5" />
+              <span>این ترکیب ارائه نمی‌شود</span>
+            </>
+          ) : !isInStock ? (
+            <>
+              <PackageX className="h-5 w-5" />
+              <span>ناموجود در این ترکیب</span>
             </>
           ) : (
             <>
@@ -287,10 +368,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           </span>
         </div>
         <a
-          href="tel:02191012345"
+          href={STORE_PHONE.href}
           className="text-xs sm:text-sm font-bold dir-ltr text-black hover:underline tracking-wide"
         >
-          ۰۲۱-۹۱۰۱۲۳۴۵
+          {STORE_PHONE.value}
         </a>
       </div>
     </div>

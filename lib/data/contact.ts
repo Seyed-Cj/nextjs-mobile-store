@@ -1,5 +1,11 @@
 import { ContactPageData } from "@/types/contact";
 
+export const STORE_PHONE = {
+  value: "۰۲۱-۹۱۰۱۲۳۴۵",
+  href: "tel:02191012345",
+  raw: "02191012345",
+};
+
 export const contactData: ContactPageData = {
   breadcrumb: {
     home: "خانه",
@@ -14,9 +20,9 @@ export const contactData: ContactPageData = {
       id: "phone",
       iconName: "phone",
       title: "تلفن فروشگاه",
-      value: "۰۲۱-۱۲۳۴۵۶۷۸",
+      value: STORE_PHONE.value,
       secondaryText: "پاسخگویی ۱۰ الی ۲۲",
-      href: "tel:02112345678",
+      href: STORE_PHONE.href,
     },
     {
       id: "whatsapp",
