@@ -15,8 +15,6 @@ export interface HeroSliderProps {
   className?: string;
 }
 
-const emptySubscribe = () => () => {};
-
 function usePrefersReducedMotion() {
   return useSyncExternalStore(
     (callback) => {

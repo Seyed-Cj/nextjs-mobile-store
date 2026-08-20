@@ -10,7 +10,9 @@ import ProductReviewsSection from "./reviews/ProductReviewsSection";
 import FaqAccordion from "./FaqAccordion";
 import { getReviewsByProductId } from "@/lib/data/reviews";
 import { getFaqs } from "@/lib/data/faq";
-import { ShieldCheck, BadgeCheck, Headphones, Package, ChevronLeft } from "lucide-react";
+import Breadcrumb, { BreadcrumbItem } from "@/components/products/listing/Breadcrumb";
+import { getCategoryBySlug } from "@/lib/data/categories";
+import { ShieldCheck, BadgeCheck, Headphones, Package } from "lucide-react";
 
 interface ProductPageProps {
   product: ProductDetailInterface;
@@ -52,25 +54,22 @@ export default async function ProductPage({ product }: ProductPageProps) {
     getFaqs(),
   ]);
 
+  // Resolve dynamic category for breadcrumbs
+  const categoryInfo = getCategoryBySlug(product.category);
+
+  const breadcrumbItems: BreadcrumbItem[] = [
+    { label: "خانه", href: "/" },
+    { label: "محصولات", href: "/products" },
+    ...(categoryInfo
+      ? [{ label: categoryInfo.label, href: categoryInfo.href }]
+      : []),
+    { label: product.name },
+  ];
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-      {/* 1. Breadcrumb */}
-      <nav
-        aria-label="مسیر صفحه"
-        className="mb-6 sm:mb-8 flex items-center gap-1.5 text-xs sm:text-sm text-gray-500"
-      >
-        <Link href="/" className="hover:text-black transition-colors">
-          خانه
-        </Link>
-        <ChevronLeft className="h-3.5 w-3.5 stroke-2 text-gray-400" />
-        <Link href="/" className="hover:text-black transition-colors">
-          محصولات
-        </Link>
-        <ChevronLeft className="h-3.5 w-3.5 stroke-2 text-gray-400" />
-        <span className="font-medium text-gray-900 line-clamp-1" aria-current="page">
-          {product.name}
-        </span>
-      </nav>
+      {/* 1. Dynamic Breadcrumb */}
+      <Breadcrumb items={breadcrumbItems} className="mb-6 sm:mb-8" />
 
       {/* 2. Main Product Section (Two Columns RTL: Gallery on RIGHT, Info on LEFT) */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-start">

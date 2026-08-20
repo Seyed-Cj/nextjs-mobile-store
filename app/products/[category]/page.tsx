@@ -7,19 +7,11 @@ import {
   getProductsByCategory,
   allProducts,
 } from "@/lib/data/products";
+import { getCategoryBySlug } from "@/lib/data/categories";
 
 interface PageProps {
   params: Promise<{ category: string }>;
 }
-
-const CATEGORY_NAMES: Record<string, string> = {
-  iphone: "آیفون",
-  mac: "مک‌بوک و مک",
-  ipad: "آیپد",
-  watch: "اپل واچ",
-  airpods: "ایرپاد",
-  accessories: "لوازم جانبی",
-};
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
@@ -35,7 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   // Category page metadata
-  const categoryTitle = CATEGORY_NAMES[slug] || category;
+  const categoryInfo = getCategoryBySlug(slug);
+  const categoryTitle = categoryInfo?.label || category;
   return {
     title: `خرید ${categoryTitle} | فروشگاه آنلاین اپل`,
     description: `مشاهده آخرین مدل‌ها و قیمت روز انواع ${categoryTitle} اصل با گارانتی.`,
@@ -63,7 +56,8 @@ export default async function CategoryOrDetailPage({ params }: PageProps) {
 
   // 2. Otherwise render category listing page
   const products = await getProductsByCategory(slug);
-  const categoryTitle = CATEGORY_NAMES[slug] || category;
+  const categoryInfo = getCategoryBySlug(slug);
+  const categoryTitle = categoryInfo?.label || category;
 
   return (
     <ProductListingPage
