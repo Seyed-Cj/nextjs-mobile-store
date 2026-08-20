@@ -123,9 +123,32 @@ export default function ProductListingPage({
           return false;
         }
 
-        // In-stock filter
-        if (filters.onlyInStock && product.inStock === false) {
-          return false;
+        // In-stock filter (variant-aware)
+        if (filters.onlyInStock) {
+          const isProductInStock =
+            product.inStock !== false &&
+            (product.totalStock === undefined || product.totalStock > 0);
+
+          if (!isProductInStock) {
+            return false;
+          }
+
+          // If color or storage filter is also active, check that the specific combination has stock
+          if (filters.selectedColor || filters.selectedStorage) {
+            if (product.variants && product.variants.length > 0) {
+              const hasMatchingInStockVariant = product.variants.some((v) => {
+                const matchesColor =
+                  !filters.selectedColor || v.colorName === filters.selectedColor;
+                const matchesStorage =
+                  !filters.selectedStorage || v.storage === filters.selectedStorage;
+                return matchesColor && matchesStorage && v.stock > 0;
+              });
+
+              if (!hasMatchingInStockVariant) {
+                return false;
+              }
+            }
+          }
         }
 
         return true;

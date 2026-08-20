@@ -27,6 +27,9 @@ export default function CartItemRow({ item }: CartItemRowProps) {
     "",
   );
 
+  const maxStockLimit = item.maxStock ?? 99;
+  const isMaxStockReached = item.quantity >= maxStockLimit;
+
   const handleDecrease = () => {
     if (item.quantity > 1) {
       updateQuantity(item.id, item.quantity - 1);
@@ -36,7 +39,7 @@ export default function CartItemRow({ item }: CartItemRowProps) {
   };
 
   const handleIncrease = () => {
-    if (item.quantity < 99) {
+    if (!isMaxStockReached) {
       updateQuantity(item.id, item.quantity + 1);
     }
   };
@@ -102,36 +105,44 @@ export default function CartItemRow({ item }: CartItemRowProps) {
 
       {/* Controls & Price Section */}
       <div className="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-neutral-100">
-        {/* Quantity Stepper */}
-        <div className="flex items-center rounded-full border border-neutral-200 bg-neutral-50 p-1 shadow-2xs">
-          <button
-            type="button"
-            onClick={handleDecrease}
-            className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white text-neutral-700 shadow-xs transition-all hover:bg-neutral-100 hover:text-black active:scale-90"
-            aria-label={item.quantity === 1 ? "حذف کالا" : "کاهش تعداد"}
-            title={item.quantity === 1 ? "حذف کالا" : "کاهش تعداد"}
-          >
-            {item.quantity === 1 ? (
-              <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500" />
-            ) : (
-              <Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            )}
-          </button>
+        {/* Quantity Stepper Column */}
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex items-center rounded-full border border-neutral-200 bg-neutral-50 p-1 shadow-2xs">
+            <button
+              type="button"
+              onClick={handleDecrease}
+              className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white text-neutral-700 shadow-xs transition-all hover:bg-neutral-100 hover:text-black active:scale-90 cursor-pointer"
+              aria-label={item.quantity === 1 ? "حذف کالا" : "کاهش تعداد"}
+              title={item.quantity === 1 ? "حذف کالا" : "کاهش تعداد"}
+            >
+              {item.quantity === 1 ? (
+                <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-red-500" />
+              ) : (
+                <Minus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              )}
+            </button>
 
-          <span className="min-w-8 text-center text-sm font-bold text-neutral-900 select-none">
-            {toPersianDigits(item.quantity)}
-          </span>
+            <span className="min-w-8 text-center text-sm font-bold text-neutral-900 select-none">
+              {toPersianDigits(item.quantity)}
+            </span>
 
-          <button
-            type="button"
-            onClick={handleIncrease}
-            disabled={item.quantity >= 99}
-            className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white text-neutral-700 shadow-xs transition-all hover:bg-neutral-100 hover:text-black active:scale-90 disabled:opacity-40 disabled:pointer-events-none"
-            aria-label="افزایش تعداد"
-            title="افزایش تعداد"
-          >
-            <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-          </button>
+            <button
+              type="button"
+              onClick={handleIncrease}
+              disabled={isMaxStockReached}
+              className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white text-neutral-700 shadow-xs transition-all hover:bg-neutral-100 hover:text-black active:scale-90 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
+              aria-label="افزایش تعداد"
+              title={isMaxStockReached ? "حداکثر موجودی در انبار" : "افزایش تعداد"}
+            >
+              <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            </button>
+          </div>
+
+          {isMaxStockReached && item.maxStock !== undefined && item.maxStock < 99 && (
+            <span className="text-[10px] text-amber-600 font-medium select-none">
+              حداکثر موجودی ({toPersianDigits(item.maxStock)})
+            </span>
+          )}
         </div>
 
         {/* Line Total Price */}

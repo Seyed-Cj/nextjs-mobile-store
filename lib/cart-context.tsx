@@ -56,6 +56,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = useCallback(
     (itemData: Omit<CartItem, "id" | "quantity"> & { quantity?: number }) => {
       const qtyToAdd = Math.max(1, itemData.quantity ?? 1);
+      const stockLimit = itemData.maxStock ?? 99;
       const id = generateCartItemId(
         itemData.productId,
         itemData.selectedColor?.name,
@@ -67,10 +68,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (existingIndex > -1) {
           const updated = [...prevItems];
           const currentItem = updated[existingIndex];
+          const maxAllowed = currentItem.maxStock ?? stockLimit;
           updated[existingIndex] = {
             ...currentItem,
-            quantity: Math.min(99, currentItem.quantity + qtyToAdd),
+            quantity: Math.min(maxAllowed, currentItem.quantity + qtyToAdd),
             unitPrice: itemData.unitPrice,
+            maxStock: maxAllowed,
           };
           return updated;
         }
@@ -78,7 +81,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         const newItem: CartItem = {
           ...itemData,
           id,
-          quantity: qtyToAdd,
+          quantity: Math.min(stockLimit, qtyToAdd),
+          maxStock: itemData.maxStock,
           currency: itemData.currency ?? "تومان",
         };
         return [...prevItems, newItem];
@@ -96,11 +100,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (quantity <= 0) {
         return prev.filter((item) => item.id !== id);
       }
-      return prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.min(99, Math.max(1, quantity)) }
-          : item,
-      );
+      return prev.map((item) => {
+        if (item.id === id) {
+          const maxAllowed = item.maxStock ?? 99;
+          return {
+            ...item,
+            quantity: Math.min(maxAllowed, Math.max(1, quantity)),
+          };
+        }
+        return item;
+      });
     });
   }, []);
 

@@ -18,6 +18,10 @@ export default function ProductGridCard({
 }: ProductGridCardProps) {
   const [isWishlist, setIsWishlist] = useState(false);
 
+  const isInStock =
+    product.inStock !== false &&
+    (product.totalStock === undefined || product.totalStock > 0);
+
   const formattedPrice = formatPersianPrice(
     product.priceFrom,
     product.currency ?? "تومان",
@@ -40,10 +44,23 @@ export default function ProductGridCard({
             alt={product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-            className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+            className={`object-contain p-2 transition-transform duration-500 group-hover:scale-105 ${
+              !isInStock ? "opacity-60 grayscale-40" : ""
+            }`}
             loading="lazy"
           />
         </Link>
+
+        {/* Out-of-Stock or Custom Badge */}
+        {!isInStock ? (
+          <span className="absolute top-3 inset-s-3 rounded-full bg-rose-600 px-2.5 py-1 text-[10px] font-bold text-white shadow-xs z-10">
+            ناموجود
+          </span>
+        ) : product.badge ? (
+          <span className="absolute top-3 inset-s-3 rounded-full bg-black px-2.5 py-1 text-[10px] font-medium text-white shadow-xs z-10">
+            {product.badge}
+          </span>
+        ) : null}
 
         {/* Top-Right Wishlist Heart Icon (in RTL, top-right is inset-e-3) */}
         <button
@@ -78,7 +95,13 @@ export default function ProductGridCard({
 
           {/* Price */}
           <p className="mt-2 text-sm font-bold text-neutral-900">
-            {formattedPrice}
+            {isInStock ? (
+              formattedPrice
+            ) : (
+              <span className="text-rose-600 font-semibold text-xs">
+                ناموجود در انبار
+              </span>
+            )}
           </p>
 
           {/* Color Swatch Row (Display-only) */}
@@ -103,9 +126,13 @@ export default function ProductGridCard({
         <div className="mt-5">
           <Link
             href={product.href}
-            className="block w-full rounded-full bg-neutral-900 py-2.5 text-center text-xs font-semibold text-white transition-all duration-200 hover:bg-black active:scale-[0.98] shadow-2xs"
+            className={`block w-full rounded-full py-2.5 text-center text-xs font-semibold transition-all duration-200 active:scale-[0.98] shadow-2xs ${
+              !isInStock
+                ? "bg-neutral-200 text-neutral-600 hover:bg-neutral-300"
+                : "bg-neutral-900 text-white hover:bg-black"
+            }`}
           >
-            مشاهده جزئیات
+            {isInStock ? "مشاهده جزئیات" : "مشاهده جزئیات (ناموجود)"}
           </Link>
         </div>
       </div>

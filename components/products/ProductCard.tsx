@@ -15,6 +15,10 @@ export default function ProductCard({
   onBuyNow,
   className = "",
 }: ProductCardProps) {
+  const isInStock =
+    product.inStock !== false &&
+    (product.totalStock === undefined || product.totalStock > 0);
+
   const formattedPrice = formatPersianPrice(
     product.priceFrom,
     product.currency ?? "تومان",
@@ -22,6 +26,7 @@ export default function ProductCard({
   );
 
   const handleBuyClick = (e: React.MouseEvent) => {
+    if (!isInStock) return;
     if (onBuyNow) {
       e.preventDefault();
       onBuyNow(product);
@@ -43,14 +48,20 @@ export default function ProductCard({
           alt={product.name}
           fill
           sizes="(max-width: 640px) 75vw, (max-width: 1024px) 40vw, 280px"
-          className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+          className={`object-contain p-2 transition-transform duration-500 group-hover:scale-105 ${
+            !isInStock ? "opacity-60 grayscale-40" : ""
+          }`}
           loading="lazy"
         />
-        {product.badge && (
+        {!isInStock ? (
+          <span className="absolute top-3 right-3 rounded-full bg-rose-600 px-2.5 py-1 text-[11px] font-bold text-white shadow-xs">
+            ناموجود
+          </span>
+        ) : product.badge ? (
           <span className="absolute top-3 right-3 rounded-full bg-black px-2.5 py-1 text-[11px] font-medium text-white shadow-xs">
             {product.badge}
           </span>
-        )}
+        ) : null}
       </Link>
 
       {/* Content Section */}
@@ -65,7 +76,13 @@ export default function ProductCard({
 
           {/* Price */}
           <p className="mt-1 text-sm font-semibold text-neutral-700">
-            {formattedPrice}
+            {isInStock ? (
+              formattedPrice
+            ) : (
+              <span className="text-rose-600 font-medium text-xs">
+                در حال حاضر ناموجود است
+              </span>
+            )}
           </p>
 
           {/* Color Swatches */}
@@ -88,11 +105,18 @@ export default function ProductCard({
 
         {/* Buy Button */}
         <div className="mt-5">
-          {onBuyNow ? (
+          {!isInStock ? (
+            <Link
+              href={product.href}
+              className="block w-full rounded-full bg-neutral-200 py-2.5 text-center text-xs font-semibold text-neutral-500 transition-all hover:bg-neutral-300"
+            >
+              مشاهده جزئیات (ناموجود)
+            </Link>
+          ) : onBuyNow ? (
             <button
               type="button"
               onClick={handleBuyClick}
-              className="w-full rounded-full bg-black py-2.5 text-center text-sm font-medium text-white transition-all duration-200 hover:bg-neutral-800 active:scale-[0.98]"
+              className="w-full rounded-full bg-black py-2.5 text-center text-sm font-medium text-white transition-all duration-200 hover:bg-neutral-800 active:scale-[0.98] cursor-pointer"
             >
               خرید
             </button>
