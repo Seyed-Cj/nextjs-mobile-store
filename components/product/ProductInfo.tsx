@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ProductDetailInterface } from "@/types/product";
 import { formatPersianPrice, toPersianDigits } from "@/lib/utils";
+import { useCart } from "@/lib/cart-context";
 import {
   ShieldCheck,
   Truck,
@@ -18,14 +19,21 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
+  const { addItem } = useCart();
+  const feedbackTimerRef = useRef<NodeJS.Timeout | null>(null);
+
   // Color selection state
-  const defaultColor = product.colors && product.colors.length > 0 ? product.colors[0] : { name: "پیش‌فرض", hex: "#000000" };
+  const defaultColor =
+    product.colors && product.colors.length > 0
+      ? product.colors[0]
+      : { name: "پیش‌فرض", hex: "#000000" };
   const [selectedColor, setSelectedColor] = useState(defaultColor);
 
   // Storage selection state
-  const storageOptions = product.storageOptions && product.storageOptions.length > 0
-    ? product.storageOptions
-    : ["256GB", "512GB", "1TB", "2TB"];
+  const storageOptions =
+    product.storageOptions && product.storageOptions.length > 0
+      ? product.storageOptions
+      : ["256GB", "512GB", "1TB", "2TB"];
   const [selectedStorage, setSelectedStorage] = useState(storageOptions[0]);
 
   // Wishlist toggle state
@@ -33,8 +41,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   // Add to cart state feedback
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
-  // TODO: Replace placeholder insurance data with product.insurance when added to lib/data data model
-  // e.g. product.insurance?.price, product.insurance?.durationMonths, product.insurance?.description
+  useEffect(() => {
+    return () => {
+      if (feedbackTimerRef.current) {
+        clearTimeout(feedbackTimerRef.current);
+      }
+    };
+  }, []);
+
   const PLACEHOLDER_INSURANCE = {
     price: 2500000,
     title: "بیمه کالا",
@@ -45,15 +59,34 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [hasInsurance, setHasInsurance] = useState(false);
 
   // Price formatting (updates total when insurance is checked)
-  const currentTotalPrice = product.priceFrom + (hasInsurance ? PLACEHOLDER_INSURANCE.price : 0);
+  const currentTotalPrice =
+    product.priceFrom + (hasInsurance ? PLACEHOLDER_INSURANCE.price : 0);
   const formattedPriceDigits = toPersianDigits(
-    currentTotalPrice.toLocaleString("en-US")
+    currentTotalPrice.toLocaleString("en-US"),
   );
   const currencyLabel = product.currency ?? "تومان";
 
   const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      name: product.name,
+      image: product.image,
+      unitPrice: currentTotalPrice,
+      currency: currencyLabel,
+      selectedColor:
+        product.colors && product.colors.length > 0 ? selectedColor : undefined,
+      selectedStorage:
+        storageOptions.length > 0 ? selectedStorage : undefined,
+      href: product.href,
+    });
+
     setIsAddedToCart(true);
-    setTimeout(() => setIsAddedToCart(false), 2500);
+    if (feedbackTimerRef.current) {
+      clearTimeout(feedbackTimerRef.current);
+    }
+    feedbackTimerRef.current = setTimeout(() => {
+      setIsAddedToCart(false);
+    }, 2500);
   };
 
   return (

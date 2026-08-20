@@ -8,6 +8,8 @@ import { Search, ShoppingBag, ChevronDown, User, X } from "lucide-react";
 import { NavItem } from "@/types";
 import { navItems } from "@/lib/data/navigation";
 import AppleLogo from "@/components/ui/AppleLogo";
+import { useCart } from "@/lib/cart-context";
+import CartBadge from "@/components/cart/CartBadge";
 
 export interface NavbarProps {
   items?: NavItem[];
@@ -27,11 +29,13 @@ function useIsMounted() {
 
 export default function Navbar({
   items = navItems,
-  bagCount = 0,
+  bagCount,
   className = "",
 }: NavbarProps) {
   const pathname = usePathname();
   const mounted = useIsMounted();
+  const { totalItemsCount, isLoaded } = useCart();
+  const effectiveBagCount = bagCount !== undefined ? bagCount : (isLoaded ? totalItemsCount : 0);
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -292,16 +296,16 @@ export default function Navbar({
             </button>
 
             <Link
-              href="/bag"
-              aria-label={bagCount > 0 ? `Bag, ${bagCount} items` : "Bag"}
+              href="/cart"
+              aria-label={
+                effectiveBagCount > 0
+                  ? `سبد خرید، ${effectiveBagCount} مورد`
+                  : "سبد خرید"
+              }
               className="relative rounded p-1 text-black/80 transition-colors hover:text-black focus-visible:outline-1 focus-visible:outline-white/60"
             >
               <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
-              {bagCount > 0 && (
-                <span className="absolute -top-1 -right-1.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-blue-500 px-1 text-[9px] font-semibold text-black">
-                  {bagCount}
-                </span>
-              )}
+              <CartBadge count={bagCount !== undefined ? bagCount : undefined} />
             </Link>
 
             <Link
