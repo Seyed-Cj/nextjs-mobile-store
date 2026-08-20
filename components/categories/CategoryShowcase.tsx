@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/types";
-import { categories } from "@/lib/data/categories";
+
+export interface CategoryShowcaseProps {
+  categories?: Category[];
+}
 
 function CategoryItem({ label, href, image }: Category) {
   const [imageError, setImageError] = useState(false);
@@ -36,7 +39,7 @@ function CategoryItem({ label, href, image }: Category) {
   );
 }
 
-export default function CategoryShowcase() {
+export default function CategoryShowcase({ categories = [] }: CategoryShowcaseProps) {
   return (
     <section
       aria-label="دسته‌بندی محصولات"

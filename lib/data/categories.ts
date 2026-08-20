@@ -16,7 +16,7 @@ export const categories: Category[] = Object.values(categoryMap).map((c) => ({
   image: c.image || "",
 }));
 
-export function getCategoryBySlug(slug?: string): { label: string; href: string } | undefined {
+export async function getCategoryBySlug(slug?: string): Promise<{ label: string; href: string } | undefined> {
   if (!slug) return undefined;
   const normalized = slug.toLowerCase().trim();
   return categoryMap[normalized];

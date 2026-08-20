@@ -1,4 +1,5 @@
 import { Product, ProductVariant } from "@/types/product";
+import { LatestProductSlide } from "@/types";
 
 export const allProducts: Product[] = [
   {
@@ -393,14 +394,7 @@ export async function getProductById(id: string): Promise<Product | undefined> {
   });
 }
 
-export const latestProducts: Array<{
-  tag: string;
-  title: string;
-  description: string;
-  href: string;
-  image: string;
-  theme: "light" | "dark";
-}> = [
+export const latestProducts: LatestProductSlide[] = [
   {
     tag: "New Mac Pro",
     title: "مک‌بوک پرو ۲۰۲۶",
@@ -437,7 +431,7 @@ export const latestProducts: Array<{
 
 export const products = latestProducts;
 
-export async function getLatestProducts() {
+export async function getLatestProducts(): Promise<LatestProductSlide[]> {
   return latestProducts;
 }
 

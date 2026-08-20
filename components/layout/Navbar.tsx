@@ -6,7 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, ChevronDown, User, X } from "lucide-react";
 import { NavItem } from "@/types";
-import { navItems } from "@/lib/data/navigation";
 import AppleLogo from "@/components/ui/AppleLogo";
 import { useCart } from "@/lib/cart-context";
 import CartBadge from "@/components/cart/CartBadge";
@@ -28,7 +27,7 @@ function useIsMounted() {
 }
 
 export default function Navbar({
-  items = navItems,
+  items = [],
   bagCount,
   className = "",
 }: NavbarProps) {

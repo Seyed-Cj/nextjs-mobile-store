@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { Send } from "lucide-react";
-import { footerLinkColumns, FooterLinkItem } from "@/lib/data/footer-links";
+import { FooterLinkColumn, FooterLinkItem } from "@/lib/data/footer-links";
+
+export interface FooterLinksProps {
+  columns?: FooterLinkColumn[];
+}
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -52,10 +56,10 @@ function renderSocialIcon(iconType?: FooterLinkItem["iconType"]) {
   }
 }
 
-export default function FooterLinks() {
+export default function FooterLinks({ columns = [] }: FooterLinksProps) {
   return (
     <div className="mb-10 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
-      {footerLinkColumns.map((col) => (
+      {columns.map((col) => (
         <nav key={col.heading} aria-label={col.heading}>
           <h4 className="mb-4 text-base font-bold text-gray-900">
             {col.heading}

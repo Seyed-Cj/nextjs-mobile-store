@@ -10,11 +10,15 @@ export const metadata: Metadata = {
   description: "Premium Apple products store",
 };
 
-export default function RootLayout({
+import { getNavItems } from "@/lib/data/navigation";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const navItems = await getNavItems();
+
   return (
     <html
       lang="fa"
@@ -23,7 +27,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-screen flex-col font-sans">
         <CartProvider>
-          <Navbar />
+          <Navbar items={navItems} />
           <main className="grow">{children}</main>
           <Footer />
         </CartProvider>

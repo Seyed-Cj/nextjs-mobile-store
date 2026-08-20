@@ -9,10 +9,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import { products } from "@/lib/data/products";
+import { LatestProductSlide } from "@/types";
 import LatestProductCard from "./LatestProductCard";
 
-export default function LatestProducts() {
+export interface LatestProductsProps {
+  products?: LatestProductSlide[];
+}
+
+export default function LatestProducts({ products = [] }: LatestProductsProps) {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const [edge, setEdge] = useState({ isBeginning: true, isEnd: false });

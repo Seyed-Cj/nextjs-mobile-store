@@ -24,6 +24,6 @@ export const heroSlides: HeroSlideData[] = [
   },
 ];
 
-export function getHeroSlides(): HeroSlideData[] {
+export async function getHeroSlides(): Promise<HeroSlideData[]> {
   return heroSlides;
 }

@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { category } = await params;
   const slug = category.toLowerCase();
 
-  const categoryInfo = getCategoryBySlug(slug);
+  const categoryInfo = await getCategoryBySlug(slug);
   const categoryTitle = categoryInfo?.label || category;
 
   return {
@@ -23,9 +23,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  const categories = ["iphone", "mac", "ipad", "watch", "airpods", "accessories", "appletv"];
+  const categories = await getCategories();
   return categories.map((cat) => ({
-    category: cat,
+    category: cat.href.replace("/category/", ""),
   }));
 }
 
@@ -33,8 +33,10 @@ export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;
   const slug = category.toLowerCase();
 
-  const products = await getProductsByCategory(slug);
-  const categoryInfo = getCategoryBySlug(slug);
+  const [products, categoryInfo] = await Promise.all([
+    getProductsByCategory(slug),
+    getCategoryBySlug(slug),
+  ]);
   const categoryTitle = categoryInfo?.label || category;
 
   return (

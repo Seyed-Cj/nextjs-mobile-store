@@ -5,12 +5,15 @@ import ContactHeader from "@/components/contact/ContactHeader";
 import ContactInfoCards from "@/components/contact/ContactInfoCards";
 import ContactStoreImage from "@/components/contact/ContactStoreImage";
 import ContactHoursStrip from "@/components/contact/ContactHoursStrip";
-import { contactData, getContactData } from "@/lib/data/contact";
+import { getContactData } from "@/lib/data/contact";
 
-export const metadata: Metadata = {
-  title: "تماس با ما | اپل استور",
-  description: contactData.header.subtitle,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getContactData();
+  return {
+    title: "تماس با ما | اپل استور",
+    description: data.header.subtitle,
+  };
+}
 
 export default async function ContactPage() {
   const data = await getContactData();

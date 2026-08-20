@@ -42,20 +42,16 @@ const bottomTrustBadges = [
 ];
 
 export default async function ProductPage({ product }: ProductPageProps) {
-  // Gallery images fallback
   const galleryImages =
     product.images && product.images.length > 0
       ? product.images
       : [product.image];
 
-  // Fetch product reviews and site FAQs
-  const [reviews, faqs] = await Promise.all([
+  const [reviews, faqs, categoryInfo] = await Promise.all([
     getReviewsByProductId(product.id),
     getFaqs(),
+    getCategoryBySlug(product.category),
   ]);
-
-  // Resolve dynamic category for breadcrumbs
-  const categoryInfo = getCategoryBySlug(product.category);
 
   const breadcrumbItems: BreadcrumbItem[] = [
     { label: "خانه", href: "/" },

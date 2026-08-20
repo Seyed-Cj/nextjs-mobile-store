@@ -3,8 +3,11 @@ import FooterLinks from "./FooterLinks";
 import TrustBadges from "./TrustBadges";
 import FooterBottom from "./FooterBottom";
 import AppleLogo from "@/components/ui/AppleLogo";
+import { getFooterLinks } from "@/lib/data/footer-links";
 
-export default function Footer() {
+export default async function Footer() {
+  const footerLinks = await getFooterLinks();
+
   return (
     <footer
       className="border-t border-gray-200 bg-gray-50 font-sans text-gray-900"
@@ -29,7 +32,7 @@ export default function Footer() {
           <NewsletterForm />
         </div>
 
-        <FooterLinks />
+        <FooterLinks columns={footerLinks} />
 
         <TrustBadges />
 

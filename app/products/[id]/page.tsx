@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductPage from "@/components/product/ProductPage";
-import { getProductById, allProducts } from "@/lib/data/products";
+import { getProductById, getAllProducts } from "@/lib/data/products";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  return allProducts.map((product) => ({
+  const products = await getAllProducts();
+  return products.map((product) => ({
     id: product.id,
   }));
 }
