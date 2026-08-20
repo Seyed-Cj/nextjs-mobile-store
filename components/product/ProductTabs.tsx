@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { toPersianDigits } from "@/lib/utils";
 
-export type TabId = "reviews" | "specs" | "box" | "shipping";
+export type TabId = "intro" | "specs" | "reviews";
 
 export interface TabItem {
   id: TabId;
@@ -14,39 +14,33 @@ export interface TabItem {
 export interface ProductTabsProps {
   initialTab?: TabId;
   reviewCount?: number;
-  reviewsContent?: React.ReactNode;
+  introContent?: React.ReactNode;
   specsContent?: React.ReactNode;
-  boxContent?: React.ReactNode;
-  shippingContent?: React.ReactNode;
+  reviewsContent?: React.ReactNode;
 }
 
 export default function ProductTabs({
-  initialTab = "reviews",
+  initialTab = "intro",
   reviewCount = 0,
-  reviewsContent,
+  introContent,
   specsContent,
-  boxContent,
-  shippingContent,
+  reviewsContent,
 }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<TabId>(initialTab);
 
   const tabs: TabItem[] = [
     {
-      id: "reviews",
-      label: "نظرات کاربران",
-      count: reviewCount > 0 ? reviewCount : undefined,
+      id: "intro",
+      label: "معرفی",
     },
     {
       id: "specs",
       label: "مشخصات فنی",
     },
     {
-      id: "box",
-      label: "محتویات جعبه",
-    },
-    {
-      id: "shipping",
-      label: "ارسال و بازگشت",
+      id: "reviews",
+      label: "نظرات کاربران",
+      count: reviewCount > 0 ? reviewCount : undefined,
     },
   ];
 
@@ -99,14 +93,14 @@ export default function ProductTabs({
       <div className="pt-8">
         <div
           role="tabpanel"
-          id="tabpanel-reviews"
-          aria-labelledby="tab-reviews"
-          hidden={activeTab !== "reviews"}
-          className={activeTab === "reviews" ? "block" : "hidden"}
+          id="tabpanel-intro"
+          aria-labelledby="tab-intro"
+          hidden={activeTab !== "intro"}
+          className={activeTab === "intro" ? "block" : "hidden"}
         >
-          {reviewsContent || (
+          {introContent || (
             <div className="py-6 text-sm text-neutral-500">
-              بخش نظرات کاربران در حال بارگذاری است...
+              توضیحات معرفی در دسترس نیست.
             </div>
           )}
         </div>
@@ -127,28 +121,14 @@ export default function ProductTabs({
 
         <div
           role="tabpanel"
-          id="tabpanel-box"
-          aria-labelledby="tab-box"
-          hidden={activeTab !== "box"}
-          className={activeTab === "box" ? "block" : "hidden"}
+          id="tabpanel-reviews"
+          aria-labelledby="tab-reviews"
+          hidden={activeTab !== "reviews"}
+          className={activeTab === "reviews" ? "block" : "hidden"}
         >
-          {boxContent || (
+          {reviewsContent || (
             <div className="py-6 text-sm text-neutral-500">
-              اطلاعات محتویات جعبه ثبت نشده است.
-            </div>
-          )}
-        </div>
-
-        <div
-          role="tabpanel"
-          id="tabpanel-shipping"
-          aria-labelledby="tab-shipping"
-          hidden={activeTab !== "shipping"}
-          className={activeTab === "shipping" ? "block" : "hidden"}
-        >
-          {shippingContent || (
-            <div className="py-6 text-sm text-neutral-500">
-              اطلاعات ارسال و بازگشت ثبت نشده است.
+              بخش نظرات کاربران در حال بارگذاری است...
             </div>
           )}
         </div>

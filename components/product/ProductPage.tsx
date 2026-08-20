@@ -4,6 +4,7 @@ import { ProductDetailInterface } from "@/types/product";
 import ProductGallery from "./ProductGallery";
 import ProductInfo from "./ProductInfo";
 import ProductTabs from "./ProductTabs";
+import ProductIntro from "./ProductIntro";
 import SpecsTable from "./SpecsTable";
 import ProductReviewsSection from "./reviews/ProductReviewsSection";
 import FaqAccordion from "./FaqAccordion";
@@ -87,13 +88,14 @@ export default async function ProductPage({ product }: ProductPageProps) {
       {/* 3. Product Tabs Section */}
       <ProductTabs
         reviewCount={reviews.length}
+        introContent={<ProductIntro description={product.description} />}
+        specsContent={<SpecsTable specs={product.specs} />}
         reviewsContent={
           <ProductReviewsSection
             productId={product.id}
             initialReviews={reviews}
           />
         }
-        specsContent={<SpecsTable specs={product.specs} />}
       />
 
       {/* 4. Frequently Asked Questions (FAQ) */}
