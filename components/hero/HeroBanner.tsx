@@ -17,7 +17,7 @@ export default function HeroBanner({
       dir="rtl"
       lang="fa"
       aria-label="اسلایدر تبلیغاتی"
-      className={`py-4 sm:py-6 lg:py-10 lg:pt-15 ${className}`}
+      className={`py-3 sm:py-6 lg:py-8 ${className}`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         <HeroSlider slides={slides} />

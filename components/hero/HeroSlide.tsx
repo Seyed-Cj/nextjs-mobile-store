@@ -15,7 +15,7 @@ export default function HeroSlide({
 }: HeroSlideProps) {
   return (
     <div
-      className={`relative aspect-video w-full overflow-hidden rounded-2xl bg-[#f5f5f7] sm:aspect-21/8 lg:aspect-25/9 ${className}`}
+      className={`relative aspect-16/10 w-full overflow-hidden rounded-2xl border border-black/5 bg-[#f5f5f7] shadow-xs sm:aspect-21/8 sm:rounded-3xl lg:aspect-25/9 ${className}`}
     >
       <Image
         src={slide.image.src}
@@ -23,7 +23,7 @@ export default function HeroSlide({
         fill
         priority={priority}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1280px"
-        className="rounded-3xl p-2"
+        className="rounded-2xl object-cover p-1.5 sm:rounded-3xl sm:p-2"
       />
     </div>
   );

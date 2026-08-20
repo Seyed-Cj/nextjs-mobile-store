@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useSyncExternalStore } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y, Keyboard, Autoplay } from "swiper/modules";
 
@@ -15,24 +15,28 @@ export interface HeroSliderProps {
   className?: string;
 }
 
+const emptySubscribe = () => () => {};
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    (callback) => {
+      if (typeof window === "undefined") return () => {};
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      mediaQuery.addEventListener("change", callback);
+      return () => mediaQuery.removeEventListener("change", callback);
+    },
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false,
+  );
+}
+
 export default function HeroSlider({
   slides,
   className = "",
 }: HeroSliderProps) {
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
     <div className={`relative w-full ${className}`}>
@@ -40,12 +44,18 @@ export default function HeroSlider({
         modules={[Pagination, A11y, Keyboard, Autoplay]}
         dir="rtl"
         slidesPerView={1}
-        spaceBetween={0}
+        spaceBetween={12}
+        breakpoints={{
+          640: {
+            spaceBetween: 0,
+          },
+        }}
         speed={reducedMotion ? 0 : 500}
         loop={true}
         autoplay={{
-          delay: 3500,
+          delay: 4000,
           disableOnInteraction: false,
+          pauseOnMouseEnter: true,
         }}
         keyboard={{ enabled: true }}
         a11y={{ enabled: true }}
@@ -53,11 +63,11 @@ export default function HeroSlider({
           clickable: true,
           el: ".hero-swiper-pagination",
           bulletClass:
-            "hero-bullet inline-block h-2.5 w-2.5 rounded-full bg-black/25 transition-all duration-300 cursor-pointer hover:bg-black/50 mx-1",
+            "hero-bullet inline-block h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-black/25 transition-all duration-300 cursor-pointer hover:bg-black/50 mx-1",
           bulletActiveClass:
-            "hero-bullet-active !w-7 !bg-neutral-900 !rounded-full shadow-2xs",
+            "hero-bullet-active !w-5 sm:!w-7 !bg-neutral-900 !rounded-full shadow-2xs",
         }}
-        className="hero-swiper w-full overflow-hidden rounded-3xl"
+        className="hero-swiper w-full overflow-hidden rounded-2xl sm:rounded-3xl"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={slide.id}>
@@ -66,9 +76,9 @@ export default function HeroSlider({
         ))}
       </Swiper>
 
-      {/* Pagination Container with subtle backdrop pill for contrast */}
-      <div className="pointer-events-none absolute right-0 bottom-3 left-0 z-20 flex justify-center sm:bottom-4">
-        <div className="hero-swiper-pagination pointer-events-auto flex items-center justify-center rounded-full px-3 py-1.5" />
+      {/* Pagination Container */}
+      <div className="pointer-events-none absolute right-0 bottom-2.5 sm:bottom-4 left-0 z-20 flex justify-center">
+        <div className="hero-swiper-pagination pointer-events-auto flex items-center justify-center rounded-full px-2.5 sm:px-3 py-1 sm:py-1.5" />
       </div>
     </div>
   );

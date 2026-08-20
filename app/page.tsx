@@ -10,19 +10,19 @@ export default async function Home() {
 
   return (
     <>
-      <section className="hidden sm:block">
+      <section>
         <HeroBanner />
       </section>
-      <section className="pt-8 sm:pt-0">
+      <section>
         <CategoryShowcase />
       </section>
-      <section className="">
+      <section>
         <LatestProducts />
       </section>
-      <section className="">
+      <section>
         <FeaturedProducts products={featured} />
       </section>
-      <section className="">
+      <section>
         <FeaturedProducts title="آیفون‌ها" products={iPhones} />
       </section>
     </>
