@@ -14,7 +14,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const slug = category.toLowerCase();
 
   const categoryInfo = await getCategoryBySlug(slug);
-  const categoryTitle = categoryInfo?.label || category;
+  if (!categoryInfo) {
+    return {
+      title: "دسته‌بندی یافت نشد | فروشگاه آنلاین اپل",
+      description: "دسته‌بندی مورد نظر یافت نشد.",
+    };
+  }
+
+  const categoryTitle = categoryInfo.label;
 
   return {
     title: `خرید ${categoryTitle} | فروشگاه آنلاین اپل`,
@@ -33,11 +40,13 @@ export default async function CategoryPage({ params }: PageProps) {
   const { category } = await params;
   const slug = category.toLowerCase();
 
-  const [products, categoryInfo] = await Promise.all([
-    getProductsByCategory(slug),
-    getCategoryBySlug(slug),
-  ]);
-  const categoryTitle = categoryInfo?.label || category;
+  const categoryInfo = await getCategoryBySlug(slug);
+  if (!categoryInfo) {
+    notFound();
+  }
+
+  const products = await getProductsByCategory(slug);
+  const categoryTitle = categoryInfo.label;
 
   return (
     <ProductListingPage
