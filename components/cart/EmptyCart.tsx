@@ -3,10 +3,10 @@ import Link from "next/link";
 import { ShoppingBag, ArrowLeft, Smartphone, Laptop, Tablet, Watch } from "lucide-react";
 
 const quickCategories = [
-  { label: "آیفون", href: "/products/iphone", icon: Smartphone },
-  { label: "مک‌بوک", href: "/products/mac", icon: Laptop },
-  { label: "آیپد", href: "/products/ipad", icon: Tablet },
-  { label: "اپل واچ", href: "/products/watch", icon: Watch },
+  { label: "آیفون", href: "/category/iphone", icon: Smartphone },
+  { label: "مک‌بوک", href: "/category/mac", icon: Laptop },
+  { label: "آیپد", href: "/category/ipad", icon: Tablet },
+  { label: "اپل واچ", href: "/category/watch", icon: Watch },
 ];
 
 export default function EmptyCart() {

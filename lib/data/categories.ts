@@ -1,13 +1,13 @@
 import { Category } from "@/types";
 
 export const categoryMap: Record<string, { label: string; href: string; image?: string }> = {
-  mac: { label: "مک", href: "/products/mac", image: "/categories/mac-nav.png" },
-  iphone: { label: "آیفون", href: "/products/iphone", image: "/categories/iphone-nav.png" },
-  ipad: { label: "آیپد", href: "/products/ipad", image: "/categories/ipad-nav.png" },
-  watch: { label: "اپل واچ", href: "/products/watch", image: "/categories/watch-nav.png" },
-  airpods: { label: "ایرپاد", href: "/products/airpods", image: "/categories/airpods-nav.png" },
-  accessories: { label: "لوازم جانبی", href: "/products/accessories", image: "/categories/accessories-nav.png" },
-  appletv: { label: "اپل تی‌وی", href: "/products/appletv", image: "/categories/appletv-nav.png" },
+  mac: { label: "مک", href: "/category/mac", image: "/categories/mac-nav.png" },
+  iphone: { label: "آیفون", href: "/category/iphone", image: "/categories/iphone-nav.png" },
+  ipad: { label: "آیپد", href: "/category/ipad", image: "/categories/ipad-nav.png" },
+  watch: { label: "اپل واچ", href: "/category/watch", image: "/categories/watch-nav.png" },
+  airpods: { label: "ایرپاد", href: "/category/airpods", image: "/categories/airpods-nav.png" },
+  accessories: { label: "لوازم جانبی", href: "/category/accessories", image: "/categories/accessories-nav.png" },
+  appletv: { label: "اپل تی‌وی", href: "/category/appletv", image: "/categories/appletv-nav.png" },
 };
 
 export const categories: Category[] = Object.values(categoryMap).map((c) => ({

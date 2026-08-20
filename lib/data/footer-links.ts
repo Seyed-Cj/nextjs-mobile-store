@@ -17,7 +17,7 @@ export const footerLinkColumns: FooterLinkColumn[] = [
       { label: "آیفون ۱۷", href: "/products/iphone-17" },
       { label: "آیفون ۱۶ پرو", href: "/products/iphone-16-pro" },
       { label: "آیفون ۱۶", href: "/products/iphone-16" },
-      { label: "همه مدل‌های آیفون", href: "/products/iphone" },
+      { label: "همه مدل‌های آیفون", href: "/category/iphone" },
     ],
   },
   {
@@ -25,17 +25,17 @@ export const footerLinkColumns: FooterLinkColumn[] = [
     items: [
       { label: "مک‌بوک پرو ۲۰۲۶", href: "/products/macbook-pro-2026" },
       { label: "مک‌بوک نئو ۲۰۲۶", href: "/products/macbook-neo" },
-      { label: "همه مدل‌های مک", href: "/products/mac" },
+      { label: "همه مدل‌های مک", href: "/category/mac" },
       { label: "همه محصولات اپل", href: "/products" },
     ],
   },
   {
     heading: "دسته‌بندی‌ها",
     items: [
-      { label: "گوشی آیفون", href: "/products/iphone" },
-      { label: "لپ‌تاپ مک‌بوک", href: "/products/mac" },
-      { label: "فروشگاه اپل", href: "/products" },
-      { label: "جدیدترین محصولات", href: "/products" },
+      { label: "گوشی آیفون", href: "/category/iphone" },
+      { label: "لپ‌تاپ مک‌بوک", href: "/category/mac" },
+      { label: "آیپد اپل", href: "/category/ipad" },
+      { label: "اپل واچ", href: "/category/watch" },
     ],
   },
   {
